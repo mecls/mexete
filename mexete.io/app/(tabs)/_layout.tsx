@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
-import Octicons from '@expo/vector-icons/Octicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -37,7 +37,7 @@ export default function TabLayout() {
         name="tasks/index"
         options={{
           title: 'Tasks',
-          tabBarIcon: ({ color }) => <Octicons name="tasklist" size={24} color={color}/>,
+          tabBarIcon: ({ color }) => <FontAwesome name="list-ul" size={24} color={color} />,
         }}
       />
         <Tabs.Screen
