@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   goalAlign:{
     alignItems:'center',
     textAlign:'center',
-    fontSize:24,
+    margin:5,
   },
   goalAlign_:{
     marginTop:-10,
