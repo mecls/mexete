@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { ThemedText } from './ThemedText';
-export default function Box_p() {
+export default function ProfileIcon() {
   return (
     <View style={styles.mainContainer}>
         <ThemedText type='subtitle'>Priorities</ThemedText>
