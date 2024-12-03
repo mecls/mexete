@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     },
   userInfoSection: {
     marginRight:20,
-    alignSelf:'baseline',
+    alignSelf:'auto',
     borderColor:'#FF3131',
     borderWidth: 3,
     borderRadius: 63, // Adjust for the image size + border width

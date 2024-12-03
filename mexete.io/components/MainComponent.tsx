@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, SafeAreaView } from 'react-native'
+import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
+const { width } = Dimensions.get('window');
+
 export default function MainComponent() {
 
   const strkDays= "89";
@@ -12,6 +14,11 @@ export default function MainComponent() {
         <View style={styles.subcontainer}>
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
+              <View style={styles.pContainer_plus}>
+                  <TouchableOpacity>
+                    <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} />
+                  </TouchableOpacity>
+              </View>
             </View>
         </View>
         <View style={styles.subcontainer2}>
@@ -22,12 +29,35 @@ export default function MainComponent() {
               <ThemedText type='streakTitle'>{strkDays}</ThemedText>
               </View>
             <Avatar.Image size={113} style={styles.strkImg} source={require('../assets/images/0_20lvl.png')} />
+            <View style={styles.infoContainer}>
+                <TouchableOpacity>
+                   <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/info.png')} />
+                </TouchableOpacity>
+            </View>
             </View>
             <View style={styles.subcontainer2}>
             <View style={styles.hBox}>
             <ThemedText type='defaultSemiBold'>Hobbies:</ThemedText>
+            <View style={styles.hContainer_plus}>
+                  <TouchableOpacity>
+                    <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} />
+                  </TouchableOpacity>
+              </View>
             </View>
         </View>
+        </View>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.subcontainer3}>
+              <ThemedText type='subtitle'>Monthly Stats</ThemedText>
+              <View style={styles.mBox}>
+                <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
+                <View style={styles.m_infoContainer}>
+                <TouchableOpacity>
+                   <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/info.png')} />
+                </TouchableOpacity>
+            </View>
+              </View>
         </View>
       </View>
     </SafeAreaView>
@@ -46,7 +76,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent:'space-between',
       gap: 20, 
-      paddingTop:10,
+      paddingTop:15,
     },
     pBox:{
       width:200,
@@ -54,16 +84,18 @@ const styles = StyleSheet.create({
       marginTop:5,
       padding:10,
       position:'static',
+      alignSelf:'flex-start',
       backgroundColor:'#202020',
       borderCurve:'continuous',
       borderRadius:20,
     },
     sBox:{
-      width:150,
+      width:width*0.385,
       height:150,
       marginTop:5,
       padding:10,
       position:'static',
+      alignSelf:'flex-start',
       alignItems:'center',
       backgroundColor:'#202020',
       borderCurve:'continuous',
@@ -72,13 +104,28 @@ const styles = StyleSheet.create({
     containerStrk: {
       flexDirection: 'row',
       alignItems:'center',
+      marginTop:-10,
     },
     hBox:{
-      width:150,
+      width:width*0.385,
       height:100,
       marginTop:5,
+      marginRight:5,
       padding:10,
+      alignSelf:'flex-start',
       position:'static',
+      backgroundColor:'#202020',
+      borderCurve:'continuous',
+      borderRadius:20,
+    },
+    mBox:{
+      width:width*0.95,
+      height:200,
+      marginTop:5,
+      padding:10,
+      marginRight:5,
+      position:'static',
+      alignSelf:'flex-start',
       backgroundColor:'#202020',
       borderCurve:'continuous',
       borderRadius:20,
@@ -98,5 +145,28 @@ const styles = StyleSheet.create({
       position:'fixed',
       borderCurve: 'continuous',
       backgroundColor:'transparent',
+    },
+    b_transparent:{
+      backgroundColor:'transparent',
+    },
+    infoContainer:{
+      alignSelf:'flex-end',
+      position:'absolute',
+      marginTop:120,
+      paddingRight:5,
+    },
+    pContainer_plus:{
+      alignSelf:'center',
+      marginTop:100,
+    },
+    hContainer_plus:{
+      alignSelf:'center',
+      marginTop:10,
+    },
+    m_infoContainer:{
+      alignSelf:'flex-end',
+      position:'absolute',
+      marginTop:170,
+      paddingRight:5,
     },
   });
