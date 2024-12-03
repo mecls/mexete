@@ -2,11 +2,19 @@ import React from 'react'
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
+import {useRouter } from 'expo-router';
+import AntDesign from '@expo/vector-icons/AntDesign';
 const { width } = Dimensions.get('window');
 
 export default function MainComponent() {
+  
+  const router = useRouter();
 
+  const handleNavigate2tsk= () => {
+    router.push('/(tabs)/(tasks)');
+  };
   const strkDays= "89";
+
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -14,9 +22,10 @@ export default function MainComponent() {
         <View style={styles.subcontainer}>
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
-              <View style={styles.pContainer_plus}>
-                  <TouchableOpacity>
-                    <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} />
+              <View style={styles.pContainer_plus} >
+                  <TouchableOpacity onPress={handleNavigate2tsk} >
+                    {/* <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} /> */}
+                    <AntDesign name="pluscircleo" size={30} color="#FF3131" />
                   </TouchableOpacity>
               </View>
             </View>

@@ -34,21 +34,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="tasks/index"
+        name="(tasks)"
         options={{
           title: 'Tasks',
           tabBarIcon: ({ color }) => <FontAwesome name="list-ul" size={24} color={color} />,
         }}
       />
         <Tabs.Screen
-        name="workouts/index"
+        name="(workouts)"
         options={{
           title: 'Workouts',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="dumbbell.fill" color={color} />,
         }}
       />
         <Tabs.Screen
-        name="hobbies/index"
+        name="(hobbies)"
         options={{
           title: 'Hobbies',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="puzzlepiece.fill" color={color} />,

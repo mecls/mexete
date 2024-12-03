@@ -1,12 +1,17 @@
 import {StyleSheet, View, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Avatar } from 'react-native-paper';
 import MainComponent from '@/components/MainComponent';
 
 const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
+  const router = useRouter();
+
+  const navigation2Profile = () => {
+    // router.push('/(profile)');
+  };
   return (
     <SafeAreaView style={styles.mainContainer}>
     <View style={styles.container}>
@@ -16,8 +21,8 @@ export default function HomeScreen() {
         <ThemedText type="default" style={styles.boxThree}>Today</ThemedText>
       </View>
       <View style={styles.userInfoSection}>
-        <Link href={'/(tabs)/hobbies'} asChild>
-          <TouchableOpacity>
+        <Link href={'/(tabs)/(tasks)'} asChild>
+          <TouchableOpacity onPress={navigation2Profile}>
               <Avatar.Image size={width * 0.15} source={require('../../assets/images/profileImg.png')} />
           </TouchableOpacity>
         </Link>
