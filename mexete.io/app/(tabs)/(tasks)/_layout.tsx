@@ -8,9 +8,8 @@ export default function TasksLayout() {
   const handleDismissAll = () => {
     router.dismissTo('/');
   };
-  return  <Stack >
+  return  <Stack>
             <Stack.Screen name="index" options={{title: 'Tasks', headerShown:false}}/>
-            {/* <Stack.Screen name="createTask" options={{title: 'Create Task',presentation:'modal',headerShown:true, headerTintColor:'#fff'}}/> */}
             <Stack.Screen
               name="createTask"
               options={{
@@ -27,5 +26,7 @@ export default function TasksLayout() {
                 ),
               }}
             />
+            <Stack.Screen name="viewAll" options={{title: 'All Tasks', headerShown:true, headerTintColor:'#fff', headerTitleStyle:{fontWeight:'bold'},
+}}/>
   </Stack>
 };

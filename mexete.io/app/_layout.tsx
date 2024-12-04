@@ -8,9 +8,6 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { PaperProvider } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native';
-import AntDesign from '@expo/vector-icons/AntDesign';
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

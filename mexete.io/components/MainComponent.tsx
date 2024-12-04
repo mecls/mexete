@@ -2,8 +2,12 @@ import React from 'react'
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
-import {useRouter } from 'expo-router';
+import {Link, useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+
 const { width } = Dimensions.get('window');
 
 export default function MainComponent() {
@@ -23,9 +27,10 @@ export default function MainComponent() {
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
               <View style={styles.pContainer_plus} >
-                  <TouchableOpacity onPress={handleNavigate2tsk} >
-                    {/* <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} /> */}
-                    <AntDesign name="pluscircleo" size={30} color="#FF3131" />
+                  <TouchableOpacity  >
+                    <Link href={'/(tabs)/(tasks)'} onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                      <AntDesign name="pluscircleo" size={30} color="#636363" />
+                    </Link>
                   </TouchableOpacity>
               </View>
             </View>
@@ -39,8 +44,8 @@ export default function MainComponent() {
               </View>
             <Avatar.Image size={113} style={styles.strkImg} source={require('../assets/images/0_20lvl.png')} />
             <View style={styles.infoContainer}>
-                <TouchableOpacity>
-                   <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/info.png')} />
+                <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                   <FontAwesome5 name="info-circle" size={24} color="#636363" />
                 </TouchableOpacity>
             </View>
             </View>
@@ -49,7 +54,7 @@ export default function MainComponent() {
             <ThemedText type='defaultSemiBold'>Hobbies:</ThemedText>
             <View style={styles.hContainer_plus}>
                   <TouchableOpacity>
-                    <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/circle-plus.png')} />
+                  <AntDesign name="pluscircleo" size={30} color="#636363" />
                   </TouchableOpacity>
               </View>
             </View>
@@ -63,7 +68,7 @@ export default function MainComponent() {
                 <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
                 <View style={styles.m_infoContainer}>
                 <TouchableOpacity>
-                   <Avatar.Image size={24} style={styles.b_transparent} source={require('../assets/images/info.png')} />
+                <FontAwesome5 name="info-circle" size={24} color="#636363" />
                 </TouchableOpacity>
             </View>
               </View>

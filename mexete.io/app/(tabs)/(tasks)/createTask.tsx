@@ -6,8 +6,8 @@ import { StatusBar } from 'expo-status-bar';
 export default function CreateTask() {
 
   return (
-   <SafeAreaView>
-    <View>
+   <SafeAreaView style={styles.mainContainer}>
+    <View style={styles.container}>
       <ThemedText>Modal screen</ThemedText>
     </View>
     </SafeAreaView>
@@ -15,14 +15,16 @@ export default function CreateTask() {
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  mainContainer: {
+    flex:1,
+    padding:10,
+    margin:10,
+    alignItems:'flex-start',
+    flexDirection:'column',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  container: {
+    flexDirection: 'column',
+    gap: 20, 
+    paddingTop:15,
   },
 });
