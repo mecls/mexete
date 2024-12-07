@@ -54,7 +54,7 @@ export default function MainComponent() {
             <ThemedText type='defaultSemiBold'>Hobbies:</ThemedText>
             <View style={styles.hContainer_plus}>
                   <TouchableOpacity>
-                  <AntDesign name="pluscircleo" size={30} color="#636363" />
+                  <AntDesign name="pluscircleo" size={24} color="#636363" />
                   </TouchableOpacity>
               </View>
             </View>
