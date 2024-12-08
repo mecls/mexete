@@ -10,12 +10,6 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 const { width } = Dimensions.get('window');
 
 export default function MainComponent() {
-  
-  const router = useRouter();
-
-  const handleNavigate2tsk= () => {
-    router.push('/(tabs)/(tasks)');
-  };
   const strkDays= "89";
 
 
