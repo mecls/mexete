@@ -4,7 +4,6 @@ import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
 import {Link, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 

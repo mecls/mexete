@@ -5,6 +5,7 @@ import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,15 +15,12 @@ const DATA = [
     title: 'Exercicios AR',
     subtask1: 'O que é DNS?',
     priority_lvl:'1',
-    timeToFinish_subtask1:'1h',
-    isDone1:true,
+    sub1_finishT:'[1h]',
     subtask2: 'Servidor A e R',
-    timeToFinish_subtask2:'45min',
-    isDone2:true,
+    sub2_finishT:'[45min]',
     subtask3: 'Exercicios 1,2',
-    timeToFinish_subtask3:'45min',
-    isDone3:true,
-    percentage:'',
+    sub3_finishT:'[45min]',
+  
   },
   {
     id: '2',
@@ -34,6 +32,7 @@ const DATA = [
     id: '3',
     title: 'Run',
     priority_lvl:'3',
+    percentage: '',
   },
   {
     id: '4',
@@ -41,10 +40,17 @@ const DATA = [
   },
 ];
 
-type ItemProps = {title: string, percentage:string | undefined, subtask1:string | undefined,subtask2:string | undefined,subtask3:string | undefined,priority_lvl:string | undefined};
+type ItemProps = {title: string, percentage:string | undefined,
+   subtask1:string | undefined,subtask2:string | undefined,
+   subtask3:string | undefined,priority_lvl:string | undefined,
+   sub1_finishT:string | undefined,
+   sub2_finishT:string | undefined,
+   sub3_finishT:string | undefined, 
+  };
 
-const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl }: ItemProps) => {
+const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl, sub1_finishT,sub2_finishT,sub3_finishT }: ItemProps) => {
 
+  // MAKE IT FOR EACH TASK THAT IS CREATED WHEN ADDING SUPABASE
   const [isChecked1, setChecked1] = useState(false);
   const [isChecked2, setChecked2] = useState(false);
   const [isChecked3, setChecked3] = useState(false);
@@ -68,27 +74,31 @@ const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl }:
   // The uncheck math also is bugged, it doesnt work properly
   const updatePercentage = () => {
     let totalSubtasks = 0;
-    let completedSubtasks = 1;
+    let completedSubtasks = 1; // Start with 0 completed subtasks
 
     if (subtask1) {
-      totalSubtasks += 1;
-      if (isChecked1) completedSubtasks += 1;
+        totalSubtasks += 1;
+        if (isChecked1) completedSubtasks += 1;
+        console.log(completedSubtasks);
     }
     if (subtask2) {
-      totalSubtasks += 1;
-      if (isChecked2) completedSubtasks += 1;
+        totalSubtasks += 1;
+        if (isChecked2) completedSubtasks += 1;
+        console.log(completedSubtasks);
     }
     if (subtask3) {
-      totalSubtasks += 1;
-      if (isChecked3) completedSubtasks += 1;
+        totalSubtasks += 1;
+        if (isChecked3) completedSubtasks += 1;
+        console.log(completedSubtasks);
     }
+     const percentage = totalSubtasks > 0 
+        ? `${Math.round((completedSubtasks / totalSubtasks) * 100)}%` 
+        : "0%";
 
-    const percentage = totalSubtasks > 0 
-      ? `${Math.round((completedSubtasks / totalSubtasks) * 100)}%` 
-      : "0%";
-
+    // Set the completed percentage
     setCompletedPercentage(percentage);
-  };
+};
+
 
   return (
     <View
@@ -113,6 +123,7 @@ const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl }:
                 updatePercentage();
               }}
             />
+            <ThemedText type='defaultSemiBold'>{sub1_finishT}</ThemedText>
           </View>
         )}
         {subtask2 && (
@@ -126,6 +137,7 @@ const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl }:
                 updatePercentage();
               }}
             />
+             <ThemedText type='defaultSemiBold'>{sub2_finishT}</ThemedText>
           </View>
         )}
         {subtask3 && (
@@ -139,9 +151,15 @@ const Item = ({ title, percentage, subtask1, subtask2, subtask3, priority_lvl }:
                 updatePercentage();
               }}
             />
+            <ThemedText type='defaultSemiBold'>{sub3_finishT}</ThemedText>
           </View>
         )}
       </View>
+      <View style={styles.infoContainer}>
+                <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                   <FontAwesome5 name="info-circle" size={24} color="#636363" />
+                </TouchableOpacity>
+            </View>
     </View>
   );
 };
@@ -162,6 +180,9 @@ export default function TasksScreen() {
               subtask1={item.subtask1}
               subtask2={item.subtask2}
               subtask3={item.subtask3}
+              sub1_finishT={item.sub1_finishT}
+              sub2_finishT={item.sub2_finishT}
+              sub3_finishT={item.sub3_finishT}
               priority_lvl={item.priority_lvl} // Pass the priority level
             />
           )}
@@ -211,6 +232,12 @@ const styles = StyleSheet.create({
     borderRadius:20,
     width:width*0.9,
     height:125,
+  },
+  infoContainer:{
+    alignSelf:'flex-end',
+    position:'absolute',
+    marginTop:85,
+    paddingRight:5,
   },
   flContainer: {
     flex:8,
