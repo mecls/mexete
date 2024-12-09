@@ -6,12 +6,14 @@ import {Link, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import PriorityList from '@/components/PriorityList';
+import tasks from '@/assets/data/tasks';
+import priority from '@/assets/data/priorities';
 
 const { width } = Dimensions.get('window');
 
 export default function MainComponent() {
   const strkDays= "89";
-
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -19,13 +21,14 @@ export default function MainComponent() {
         <View style={styles.subcontainer}>
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
-              <View style={styles.pContainer_plus} >
-                  <TouchableOpacity  >
+              {/* <View style={styles.pContainer_plus} > */}
+                  {/* <TouchableOpacity  >
                     <Link href={'/(tabs)/(tasks)'} onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
                       <AntDesign name="pluscircleo" size={30} color="#636363" />
                     </Link>
-                  </TouchableOpacity>
-              </View>
+                  </TouchableOpacity> */}
+                <PriorityList priorities={priority}/>
+              {/* </View> */}
             </View>
         </View>
         <View style={styles.subcontainer2}>
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
       paddingTop:15,
     },
     pBox:{
-      width:200,
+      width:width*0.5,
       height:255,
       marginTop:5,
       padding:10,
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#202020',
       borderCurve:'continuous',
       borderRadius:20,
+      alignItems:'flex-start',
     },
     sBox:{
       width:width*0.385,

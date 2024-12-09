@@ -46,3 +46,9 @@ const tasks = [
 ];
 
 export default tasks;
+// import { Task } from '../types';
+
+// // Define the tasks array with explicit type
+// const tasks: Task[] = []; // Explicitly define the type as an array of Task
+
+// export default tasks;

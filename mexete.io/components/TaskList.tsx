@@ -1,10 +1,9 @@
-import { StyleSheet, SafeAreaView, Button, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import * as Haptics from 'expo-haptics';
 import Checkbox from 'expo-checkbox';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-// import { Task } from '@/assets/types';
 const { width } = Dimensions.get('window');
 
 const getPriorityColor = (level: string | undefined) => {
@@ -33,7 +32,7 @@ const TaskItem = ({ task }: { task: any }) => {
       : '0%';
   };
 
-  const completedPercentage = updatePercentage();
+  const completedPercentage = useMemo(()=>updatePercentage(), [updatePercentage()]);
 
   const toggleSubtask = (index: number) => {
     const updatedChecks = [...subtaskChecks];

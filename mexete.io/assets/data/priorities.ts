@@ -1,16 +1,16 @@
 import { Priorities } from '../types';
 import tasks from './tasks';
 // Utility function to map priority levels to PriorityLevel type
-const mapPriorityLevel = (priority: string): 'High Priority' | 'Medium Priority' | 'Low Priority' | 'Default' => {
+const mapPriorityLevel = (priority: string): '1' | '2' | '3' | '' => {
     switch (priority) {
       case '1':
-        return 'High Priority';
+        return '1';
       case '2':
-        return 'Medium Priority';
+        return '2';
       case '3':
-        return 'Low Priority';
+        return '3';
       default:
-        return 'Default';
+        return '';
     }
   };
   

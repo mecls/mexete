@@ -5,7 +5,7 @@ export type Task = {id: number,title: string,
     time2finish: string | undefined;
 };
 
-export type PriorityLevel = 'High Priority' | 'Medium Priority' | 'Low Priority' | 'Default';
+export type PriorityLevel = '1' | '2' | '3' | '';
 
 export type Priorities = {
     user_id: number;
