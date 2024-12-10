@@ -7,6 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import PriorityList from '@/components/PriorityList';
 import priority from '@/assets/data/priorities';
+import tasks from '@/assets/data/tasks';
 
 const { width } = Dimensions.get('window');
 
@@ -19,7 +20,7 @@ export default function MainComponent() {
         <View style={styles.subcontainer}>
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
-            <PriorityList priorities={priority} />
+            <PriorityList tasks={tasks} />
             </View>
         </View>
         <View style={styles.subcontainer2}>
