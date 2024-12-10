@@ -2,12 +2,10 @@ import React from 'react'
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
-import {Link, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import PriorityList from '@/components/PriorityList';
-import tasks from '@/assets/data/tasks';
 import priority from '@/assets/data/priorities';
 
 const { width } = Dimensions.get('window');
@@ -21,14 +19,7 @@ export default function MainComponent() {
         <View style={styles.subcontainer}>
             <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
-              {/* <View style={styles.pContainer_plus} > */}
-                  {/* <TouchableOpacity  >
-                    <Link href={'/(tabs)/(tasks)'} onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                      <AntDesign name="pluscircleo" size={30} color="#636363" />
-                    </Link>
-                  </TouchableOpacity> */}
-                <PriorityList priorities={priority}/>
-              {/* </View> */}
+            <PriorityList priorities={priority} />
             </View>
         </View>
         <View style={styles.subcontainer2}>

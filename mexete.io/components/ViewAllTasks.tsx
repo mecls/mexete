@@ -19,25 +19,8 @@ const getPriorityColor = (level: string | undefined) => {
   }
 };
 
-const TaskItem = ({ task, date}: { task: any, date: Date}) => {
- 
-  if (!date) {
-    console.warn("Date is undefined!");
-    return null; // Render nothing if the date is missing
-  }
-  const taskDate = new Date(task.date);
-  console.log("Data of date is: " + task.date);
+const TaskItem = ({ task}: { task: any}) => {
 
-  // Compare only the day, month, and year to ensure a match
-  const isToday =
-    taskDate.getDate() === date.getDate() &&
-    taskDate.getMonth() === date.getMonth() &&
-    taskDate.getFullYear() === date.getFullYear();
-
-  if (!isToday) {
-    return null; // If the task is not for today, render nothing
-  }
- 
   const [subtaskChecks, setSubtaskChecks] = useState(
     task.subtasks?.map(() => false) || []
   );
@@ -93,12 +76,12 @@ const TaskItem = ({ task, date}: { task: any, date: Date}) => {
   );
 };
 
-export const TaskList = ({ tasks }: { tasks: any[] }) => {
+export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
   
   return (
     <FlatList
       data={tasks}
-      renderItem={({ item }) => <TaskItem task={item} date={new Date()} />}
+      renderItem={({ item }) => <TaskItem task={item} />}
       keyExtractor={(item) => item.id.toString()}
     />
   );
@@ -148,4 +131,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default TaskList;
+export default ViewAllComponent;

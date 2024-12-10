@@ -4,6 +4,8 @@ const tasks = [
     id: 0,
     title: 'Exercicios AR',
     priority_lvl: '1',
+    date:new Date(),
+    // end_date:'',
     subtasks: [
       {
         subtask_id: 0,
@@ -26,6 +28,7 @@ const tasks = [
     id: 1,
     title: 'Plan App',
     priority_lvl: '2',
+    date:new Date(),
     subtasks: [
       {
         subtask_id: 0,
@@ -38,10 +41,22 @@ const tasks = [
     id: 2,
     title: 'Run',
     priority_lvl: '3',
+    date:new Date(),
   },
   {
     id: 3,
     title: 'Trash Out',
+  },
+  {
+    id: 4,
+    title: 'Apresentar Proj PCD',
+    priority_lvl: '1',
+    date:new Date(),
+  },
+  {
+    id: 5,
+    title: 'Something 1',
+    priority_lvl: '',
   },
 ];
 

@@ -26,7 +26,25 @@ const getPriorityColor = (level: string | undefined) => {
 };
 
 // Component for individual priority item
-const PriorityItem = ({ priority }: { priority: any }) => {
+const PriorityItem = ({ priority}: { priority: any}) => {
+  
+  // if (!date) {
+  //   console.warn("Date is undefined!");
+  //   return null; // Render nothing if the date is missing
+  // }
+  // const taskDate = new Date(pr.date);
+  // console.log("Data of date is: " + task.date);
+
+  // // Compare only the day, month, and year to ensure a match
+  // const isToday =
+  //   taskDate.getDate() === date.getDate() &&
+  //   taskDate.getMonth() === date.getMonth() &&
+  //   taskDate.getFullYear() === date.getFullYear();
+
+  // if (!isToday) {
+  //   return null; // If the task is not for today, render nothing
+  // }
+
   const [maintaskChecks, setMaintaskChecks] = useState(
     priority.priority_item?.map(() => false) || []
   );
@@ -89,7 +107,7 @@ export const PriorityList = ({ priorities }: { priorities: Priorities[] }) => {
   return (
     <View style={styles.listContainer}>
       {priorities.map((priority) => (
-        <PriorityItem key={priority.user_id} priority={priority} />
+        <PriorityItem key={priority.user_id} priority={priority}  />
       ))}
     </View>
   );

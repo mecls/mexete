@@ -1,80 +1,3 @@
-// import {StyleSheet, View, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
-// import { ThemedText } from '@/components/ThemedText';
-// import { Link, useRouter } from 'expo-router';
-// import { Avatar } from 'react-native-paper';
-// import MainComponent from '@/components/MainComponent';
-
-// const { width } = Dimensions.get('window');
-
-// export default function HomeScreen() {
-//   const router = useRouter();
-
-//   const navigation2Profile = () => {
-//     // router.push('/(profile)');
-//   };
-//   return (
-//     <SafeAreaView style={styles.mainContainer}>
-//     <View style={styles.container}>
-//       <View style={styles.containerText}>
-//         <ThemedText type="title" style={styles.boxOne}>Make 10k/month</ThemedText>
-//         <ThemedText type="title" style={styles.boxTwo}>with app</ThemedText>
-//         <ThemedText type="default" style={styles.boxThree}>Today</ThemedText>
-//       </View>
-//       <View style={styles.userInfoSection}>
-//         <Link href={'/(tabs)/(tasks)'} asChild>
-//           <TouchableOpacity onPress={navigation2Profile}>
-//               <Avatar.Image size={width * 0.15} source={require('../../assets/images/profileImg.png')} />
-//           </TouchableOpacity>
-//         </Link>
-//       </View>
-//     </View>
-//     <View style={styles.container}>
-//       <MainComponent/>
-//     </View>
-//   </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   mainContainer:{
-//     flex:1,
-//     alignItems:'flex-end',
-//     flexDirection:'column',
-//     backgroundColor:'#131514',
-//   },
-//   container: {
-//     flexDirection: 'row',
-//     alignItems:'center',
-//     gap: 20, 
-//     paddingTop:10,
-//   },
-//   containerText: {
-//     flexDirection: 'column',
-//     alignItems:'center',
-//     gap: 8,    
-//   },
-//   boxOne:{
-//     alignSelf:'center',
-//   },
-//   boxTwo:{
-//     marginTop:-15,
-//     alignItems:'center',
-//     textAlign:'center',
-//   },
-//   boxThree:{
-//     marginTop:0,
-//     alignItems:'center',
-//     textAlign:'center',
-//     },
-//   userInfoSection: {
-//     marginRight:20,
-//     alignSelf:'auto',
-//     borderColor:'#FF3131', //MAKE THIS GRADIENT
-//     borderWidth: 3,
-//     borderRadius: 63, // Adjust for the image size + border width
-//     borderCurve: 'circular',
-//   },
-// });
 import { StyleSheet, View, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { Link, useRouter } from 'expo-router';
@@ -100,16 +23,14 @@ export default function HomeScreen() {
           <ThemedText type="default" style={styles.boxThree}>Today</ThemedText>
         </View>
         <View style={styles.userInfoSection}>
-          {/* Wrapping the avatar in a LinearGradient */}
-        
             <Link href={'/(tabs)/(tasks)'} asChild>
               <TouchableOpacity onPress={navigation2Profile}>
               <LinearGradient
-            colors={["#FF3131", "#FF9F31"]} // Gradient colors
-            start={{ x: 0, y: 0 }} // Adjust gradient direction (top-left to bottom-right)
-            end={{ x: 1, y: 1 }}   // Adjust gradient direction (top-left to bottom-right)
-            style={styles.gradientBorder} // Apply gradient to the border
-          >
+                colors={["#FF3131", "#FF9F31"]} // Gradient colors
+                start={{ x: 0, y: 0 }} // Adjust gradient direction (top-left to bottom-right)
+                end={{ x: 1, y: 1 }}   // Adjust gradient direction (top-left to bottom-right)
+                style={styles.gradientBorder} // Apply gradient to the border
+              >
                 <Avatar.Image size={width * 0.15} source={require('../../assets/images/profileImg.png')} />
                 </LinearGradient>
               </TouchableOpacity>
