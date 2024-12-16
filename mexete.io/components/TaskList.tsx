@@ -2,8 +2,10 @@ import { StyleSheet, SafeAreaView, View, TouchableOpacity, Dimensions, FlatList 
 import { ThemedText } from '@/components/ThemedText';
 import * as Haptics from 'expo-haptics';
 import Checkbox from 'expo-checkbox';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import tasksData from '@/assets/data/tasks'; // Importa as tasks
+
 const { width } = Dimensions.get('window');
 
 const getPriorityColor = (level: string | undefined) => {
@@ -26,7 +28,7 @@ const TaskItem = ({ task, date}: { task: any, date: Date}) => {
     return null; // Render nothing if the date is missing
   }
   const taskDate = new Date(task.date);
-  console.log("Data of date is: " + task.date);
+  // console.log("Data of date is: " + task.date);
 
   // Compare only the day, month, and year to ensure a match
   const isToday =
@@ -67,7 +69,7 @@ const TaskItem = ({ task, date}: { task: any, date: Date}) => {
       ]}
     >
       <View style={styles.fl_subContainerTop}>
-        <ThemedText type="subtitle" >{task.title}</ThemedText>
+        <ThemedText type="subtitle">{task.title}</ThemedText>
         {task.subtasks && <ThemedText type="title" style={styles.percentageText}>{completedPercentage}</ThemedText>}
       </View>
       <View style={styles.fl_subContainerBody}>
@@ -93,12 +95,41 @@ const TaskItem = ({ task, date}: { task: any, date: Date}) => {
   );
 };
 
-export const TaskList = ({ tasks }: { tasks: any[] }) => {
+
+export const TaskList = () => {
   
+  const [tasks, setTasks] = useState<any[]>([]);
+
+  const orderTaskByPriority = (tasks: { id: number; priority_lvl: string }[]) => {
+    return tasks.slice().sort((a, b) => {
+      // Converte `priority_lvl` para números; trata valores inválidos como Infinity
+      const priorityA = parseInt(a.priority_lvl || '0') || Infinity;
+      const priorityB = parseInt(b.priority_lvl || '0') || Infinity;
+
+      // Primeiro, ordena por prioridade (ordem crescente)
+      const priorityComparison = priorityA - priorityB;
+
+      // Se as prioridades forem iguais, ordena por ID (ordem crescente)
+      if (priorityComparison === 0) {
+        return a.id - b.id;
+      }
+
+      return priorityComparison;
+    });
+  };
+
+  useEffect(() => {
+    // Simula carregamento dos dados e ordena
+    const fetchTasks = async () => {
+      setTasks(orderTaskByPriority(tasksData));
+    };
+    fetchTasks();
+  }, []);
+
   return (
     <FlatList
       data={tasks}
-      renderItem={({ item }) => <TaskItem task={item} date={new Date()} />}
+      renderItem={({ item }) => <TaskItem task={item} date={new Date()}/>}
       keyExtractor={(item) => item.id.toString()}
     />
   );
@@ -145,6 +176,7 @@ const styles = StyleSheet.create({
     checkbox:{
       alignSelf:'center',
       borderRadius:5,
+      padding:0, // make it 10 after implementing flatlist in subtasks
     },
   });
 

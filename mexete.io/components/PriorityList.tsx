@@ -28,7 +28,7 @@ const getPriorityColor = (level: string | undefined) => {
 
 // Component for individual priority item
 const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
-  console.log("Data of date is: " + task.id);
+  // console.log("Data of date is: " + task.id);
 
   if (!date) {
     console.warn("Date is undefined!");
@@ -65,7 +65,7 @@ const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
     setMaintaskChecks(updatedChecks);
   };
   
-  const taskItemList = (task: { id: string; }, tasks: any) => {
+  const taskItemList = (task: { id: number; }, tasks: any) => {
     // console.log("Task id: " + task.id);
   
     for (let t of tasks) { // Itera diretamente pelos objetos da lista
@@ -115,9 +115,32 @@ const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
 
 // Component for the list of priorities
 export const PriorityList = ({ tasks }: { tasks: any[] }) => {
+
+ // Ordenação de tasks
+const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
+  // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
+  const priorityA = parseInt(a.priority_lvl) || Infinity;
+  const priorityB = parseInt(b.priority_lvl) || Infinity;
+
+  // Primeiro, ordena por prioridade (ordem crescente)
+  const priorityComparison = priorityA - priorityB;
+
+  // Se as prioridades forem iguais, ordena por ID (ordem crescente)
+  if (priorityComparison === 0) {
+    return a.id - b.id;
+  }
+
+  return priorityComparison;
+
+
+}),[tasks]);
+
+// console.log(sortedTasks);
+
+
   return (
     <View style={styles.listContainer}>
-      {tasks.map((item) => (
+      {sortedTasks.map((item) => (
         <PriorityItem key={item.id} task={item} date={new Date()} />
       ))}
      </View>

@@ -46,6 +46,7 @@ const tasks = [
   {
     id: 3,
     title: 'Trash Out',
+    priority_lvl: '',
   },
   {
     id: 4,
