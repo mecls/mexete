@@ -23,6 +23,14 @@ export type PrioritiesItem = {
     tasks_data: Pick<Task, 'id' | 'title' | 'priority_lvl' | 'date'>; 
 };
 
+export type Workout = Readonly<{
+    id: number;
+    title: string;
+    date: Date | undefined;  // 'date' can be undefined
+    description?: any | undefined; 
+    time: number | undefined;
+}>;
+
 // Profile type for managing user data
 export type Profile = {
     id: string;

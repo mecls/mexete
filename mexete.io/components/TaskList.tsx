@@ -61,7 +61,7 @@ const TaskItem = ({ task, date}: { task: any, date: Date}) => {
   };
 
   return (
-     <SafeAreaView style={styles.mainContainer}>
+     <SafeAreaView >
     <View
       style={[
         styles.fl_subContainer,
@@ -136,17 +136,13 @@ export const TaskList = () => {
 };
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        flex:1,
-        margin:0,
-        alignItems:'center',
-        flexDirection:'column',
-    },
+
     percentageText: {
         textAlign: 'right',
     },
     fl_subContainer:{
       margin:10,
+      // marginTop:10,
       paddingTop:5,
       paddingLeft:12,
       backgroundColor:'#202020',

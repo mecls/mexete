@@ -6,7 +6,6 @@ import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import PriorityList from '@/components/PriorityList';
-import priority from '@/assets/data/priorities';
 import tasks from '@/assets/data/tasks';
 
 const { width } = Dimensions.get('window');
@@ -39,12 +38,12 @@ export default function MainComponent() {
             </View>
             <View style={styles.subcontainer2}>
             <View style={styles.hBox}>
-            <ThemedText type='defaultSemiBold'>Hobbies:</ThemedText>
+            <ThemedText type='defaultSemiBold'>Workout:</ThemedText>
             <View style={styles.hContainer_plus}>
                   <TouchableOpacity>
                   <AntDesign name="pluscircleo" size={24} color="#636363" />
                   </TouchableOpacity>
-              </View>
+             </View>
             </View>
         </View>
         </View>
@@ -93,12 +92,12 @@ const styles = StyleSheet.create({
       alignItems:'flex-start',
     },
     sBox:{
-      width:width*0.385,
+      width:width*0.40,
       height:150,
       marginTop:5,
       padding:10,
       position:'static',
-      alignSelf:'flex-start',
+      alignSelf:'flex-end',
       alignItems:'center',
       backgroundColor:'#202020',
       borderCurve:'continuous',
@@ -110,12 +109,11 @@ const styles = StyleSheet.create({
       marginTop:-10,
     },
     hBox:{
-      width:width*0.385,
+      width:width*0.40,
       height:100,
       marginTop:5,
-      marginRight:5,
       padding:10,
-      alignSelf:'flex-start',
+      alignSelf:'flex-end',
       position:'static',
       backgroundColor:'#202020',
       borderCurve:'continuous',
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
       flex:1,
     },
     strkImg:{
-      marginTop:-6,
+      marginTop:-10,
       alignSelf:'center',
       position:'fixed',
       borderCurve: 'continuous',

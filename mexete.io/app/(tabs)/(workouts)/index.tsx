@@ -1,109 +1,90 @@
-import { StyleSheet, Image, Platform } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { StyleSheet, SafeAreaView, Button, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Link} from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import tasks from '@/assets/data/tasks';
+import TaskList from '@/components/TaskList';
+import workouts from '@/assets/data/workouts';
+import { WorkoutComponent } from '@/components/WorkoutComponent';
 
-export default function TabTwoScreen() {
+const { width } = Dimensions.get('window');
+
+export default function WorkoutScreen() {
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Workouts</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.container} >
+        <ThemedText style={{alignSelf:'center', paddingTop:5}} type="title">Today</ThemedText>
+        <View style={styles.flContainer}>
+        <View style={styles.flContainer}>
+                  {/* Workouts List */}
+            <WorkoutComponent workouts={workouts}/>
+        </View>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.all_box} >
+              <TouchableOpacity  >
+                <Link href={'/viewAll'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                  <ThemedText type='defaultSemiBold'>View All</ThemedText>
+                </Link>
+              </TouchableOpacity>
+            </View>
+              <TouchableOpacity style={styles.plus_box}>
+             <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+              <AntDesign name="pluscircleo" size={55} color="white" />
+             </Link>
+             </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  mainContainer: {
+    flex:1,
+    margin:10,
+    flexDirection:'row',
   },
-  titleContainer: {
+  container: {
+    flex:1,
+    flexDirection: 'column',
+    gap: 20, 
+    paddingTop:15,
+    alignContent:'center',
+    alignSelf:'center',
+  },
+  flContainer: {
+    flex:8,
+  },
+  footer: {
+    // flex:2,
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-between', // Ensure consistent spacing
+    alignItems: 'center',
+    paddingHorizontal: 20, // Add padding for safe spacing
+    marginBottom: 25,
+  },  
+  all_box: {
+    backgroundColor: '#636363',
+    borderRadius: 10,
+    width: width * 0.25,
+    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    position: 'absolute',
+    bottom: 60, // Fixed distance from the bottom
+    left: 20,   // Fixed distance from the left
+  },
+  plus_box: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    position: 'absolute',
+    bottom: 45, // Fixed distance from the bottom
+    right: 20,  // Fixed distance from the right
   },
 });

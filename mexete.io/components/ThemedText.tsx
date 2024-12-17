@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   streakTitle: {
-    fontSize: 40,
+    fontSize: 45,
     fontWeight: 'bold',
   },
   link: {
