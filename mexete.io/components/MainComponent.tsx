@@ -40,7 +40,7 @@ export default function MainComponent() {
             <View style={styles.hBox}>
             <ThemedText type='defaultSemiBold'>Workout:</ThemedText>
             <View style={styles.hContainer_plus}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
                   <AntDesign name="pluscircleo" size={24} color="#636363" />
                   </TouchableOpacity>
              </View>
@@ -57,7 +57,7 @@ export default function MainComponent() {
                 <TouchableOpacity>
                 <FontAwesome5 name="info-circle" size={24} color="#636363" />
                 </TouchableOpacity>
-            </View>
+                </View>
               </View>
         </View>
       </View>

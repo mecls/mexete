@@ -39,6 +39,7 @@ const TaskItem = ({ task}: { task: any}) => {
     const updatedChecks = [...subtaskChecks];
     updatedChecks[index] = !updatedChecks[index];
     setSubtaskChecks(updatedChecks);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
   };
 
   return (

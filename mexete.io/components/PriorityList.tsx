@@ -63,6 +63,8 @@ const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
     const updatedChecks = [...maintaskChecks];
     updatedChecks[index] = !updatedChecks[index];
     setMaintaskChecks(updatedChecks);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    
   };
   
   const taskItemList = (task: { id: number; }, tasks: any) => {
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   checkbox: {
-    marginLeft: 10, // Add spacing between text and checkbox
+    marginLeft: 8, // Add spacing between text and checkbox
     borderRadius: 5,
     padding:10,
   },

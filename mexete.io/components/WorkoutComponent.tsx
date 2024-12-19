@@ -1,63 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native'
 import { ThemedText } from './ThemedText';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Text } from 'react-native';
-import tasks from '@/assets/data/workouts';
-
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Checkbox from 'expo-checkbox';
+import * as Haptics from 'expo-haptics';
 
 const { width } = Dimensions.get('window');
 
-// const Workout = ({workout}:{workout:any[]})=>{
 
-//     if (workout.length === 0) {
-//           return (
-//             <View style={styles.container2}>
-//               <View style={styles.subcontainer}>
-//               <Text>Workout</Text>
-//               <View style={styles.wBox2}>
-//                   <View style={styles.hContainer_plus}>
-//                     <TouchableOpacity>
-//                       <AntDesign name="pluscircleo" size={24} color="#636363" />
-//                     </TouchableOpacity>
-//                   </View>
-//                 </View>
-//               </View>
-//             </View>
-//           );
-//         } else if (workout.length === 1) {
-//           return (
-//             <View style={styles.container2}>
-//               <View style={styles.subcontainer}>
-//                 <Text>Workout</Text>
-//                 <View style={styles.wBox2}>
-//                   {/* Render single workout here */}
-//                   <ThemedText>{workout[0]?.title || "No title available"}</ThemedText>
-//                 </View>
-//               </View>
-//             </View>
-//           );
-//         } else if (workout.length === 2) {
-//           return (
-//             <>
-//               {/* Render multiple workouts here */}
-//               {workout.map((workoutItem) => (
-//                 <View key={workoutItem.id}>
-//                 {/* <ThemedText type="subtitle">Workout</ThemedText> */}
-//                   {/* Render workout details for each item */}
-//                   <View style={styles.wBox}>
-//                      <ThemedText type='title'>{workoutItem.title ||  "No title available"}</ThemedText> {/* Example: Display the title of the first workout */}
-//                   </View>
-//                 </View>                
-//               ))}
-//             </>
-//           );
-//         } else {
-//           // Handle unexpected case (optional)
-//           return <Text>Unexpected number of workouts</Text>;
-//         }
-//       };
 const Workout = ({ workout }: { workout: any[] }) => {
+  
+  const [workoutChecks, setWorkoutChecks] = useState(
+    workout?.map(() => false) || []
+  );
+
+  const toggleSubtask = (index: number) => {
+    const updatedChecks = [...workoutChecks];
+    updatedChecks[index] = !updatedChecks[index];
+    setWorkoutChecks(updatedChecks);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  };
+  
     if (workout.length === 0) {
       return (
         <View style={styles.container2}>
@@ -85,11 +52,59 @@ const Workout = ({ workout }: { workout: any[] }) => {
     } else if (workout.length >= 2) {
       return (
         <View style={styles.container}>
+          {/* Gets the workoutItem (Its a workout) from the workout table  */}
           {workout.map((workoutItem) => (
             <View key={workoutItem.id} style={styles.wBox}>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
               <ThemedText type='title'>{workoutItem.title || 'No title available'}</ThemedText>
+                 <Checkbox style={styles.checkbox} value={workoutChecks[workoutItem.id]} onValueChange={() => toggleSubtask(workoutItem.id)}/>
+                 <ThemedText style={{alignSelf:'center', marginLeft:10}} type='defaultSemiBold'>[{workoutItem.description.totalTime || 'No title available'}min]</ThemedText>
+            </View>
+              <ThemedText type='defaultSemiBold'>{workoutItem.description.title || 'No title available'}</ThemedText>
+              {/* If the workout type is Run then shows the running format if not shows the other one */}
+              {workoutItem.title === "Run"?(
+              <View style={{alignContent:'center', padding:5, gap:5 }}>
+                <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                  <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                  {/* To change the size of the whole box around the arrow just change this size */}
+                   <FontAwesome name="arrow-right" size={12} color="white" /> 
+                  </LinearGradient>                  
+                   <ThemedText type='defaultSemiBold'>{workoutItem.description.cooldown || 'No title available'}km warmup</ThemedText>
+                </View>
+                <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                  <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                    <FontAwesome name="arrow-right" size={12} color="white" />
+                  </LinearGradient>                  
+                  <ThemedText type='defaultSemiBold'>{workoutItem.description.split || 'No title available'} x {workoutItem.description.splitTime || 'No title available'}min</ThemedText>
+                </View>
+                <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                  <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                    <FontAwesome name="arrow-right" size={12} color="white" />
+                  </LinearGradient>
+                  <ThemedText type='defaultSemiBold'>{workoutItem.description.rest || 'No title available'} x {workoutItem.description.restTime || 'No title available'}min</ThemedText>
+                </View>
+                <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                  <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                    <FontAwesome name="arrow-right" size={12} color="white"/>
+                  </LinearGradient>                  
+                  <ThemedText type='defaultSemiBold'>{workoutItem.description.cooldown || 'No title available'}km cooldown</ThemedText>
+                </View>
+              </View>
+              ):(
+                <View>
+                  
+              </View>
+              )}
+
+
+              <View style={styles.m_infoContainer}>
+                <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                  <FontAwesome5 name="info-circle" size={24} color="#636363" />
+                </TouchableOpacity>
+              </View>
             </View>
           ))}
+          
         </View>
       );
     } else {
@@ -110,10 +125,10 @@ export const WorkoutComponent = ({ workouts }: { workouts: any[] })=>{
                 <ThemedText type='title'>Week Stats</ThemedText>
                      <View style={styles.mBox}>
                         <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
-                        <View style={styles.m_infoContainer}>
-                            <TouchableOpacity>
-                            {/* <FontAwesome5 name="info-circle" size={24} color="#636363" /> */}
-                            </TouchableOpacity>
+                        <View style={styles.m_infoContainerStats}>
+                          <TouchableOpacity  onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                            <FontAwesome5 name="info-circle" size={24} color="#636363" />
+                          </TouchableOpacity>
                         </View>
                     </View>
                 </View>   
@@ -169,9 +184,13 @@ const styles = StyleSheet.create({
         borderRadius:20,
         alignItems:'flex-start',
       },
+      gradientBorder: {
+        borderRadius: 5, // Adjust for the image size + border width
+        padding: 5, // Optional: adds padding around the image to show the gradient border
+      },
     mBox:{
         width:width*0.95,
-        height:200,
+        height:180,
         marginTop:5,
         padding:10,
         marginRight:5,
@@ -200,7 +219,18 @@ const styles = StyleSheet.create({
     m_infoContainer:{
       alignSelf:'flex-end',
       position:'absolute',
-      marginTop:170,
+      marginTop:225,
       paddingRight:5,
+    },
+    m_infoContainerStats:{
+      alignSelf:'flex-end',
+      position:'absolute',
+      marginTop:150,
+      paddingRight:5,
+    },
+    checkbox: {
+      marginLeft: 10, // Add spacing between text and checkbox
+      borderRadius: 5,
+      padding:10,
     },
   });

@@ -38,17 +38,16 @@ export default function TasksScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex:1,
-    padding:10,
-    margin:10,
     alignItems:'center',
     flexDirection:'column',
+
   },
   container: {
     flex:1,
     flexDirection: 'column',
     alignContent:'center',
     alignSelf:'center',
-    gap: 20, 
+    gap: 30, 
     paddingTop:15,
   },
   flContainer: {

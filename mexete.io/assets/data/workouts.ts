@@ -7,10 +7,11 @@ const workouts = [
       // end_date:'',
       description: {
           title: 'Fartlek',
-          split: 5,
+          split:5,
           splitTime: 5,
           rest:3,
           restTime: 3,
+          cooldown:1,
           get totalTime(){
             return (this.split*this.splitTime) + (this.rest*this.restTime);
           },
@@ -24,7 +25,7 @@ const workouts = [
         description: {
             title: 'Legs & Shoulders',
             get totalTime(){
-              return 2;
+              return 90;
             },
           },
       },

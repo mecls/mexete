@@ -4,6 +4,7 @@ import { Link, useRouter } from 'expo-router';
 import { Avatar } from 'react-native-paper';
 import MainComponent from '@/components/MainComponent';
 import { LinearGradient } from 'expo-linear-gradient'
+import * as Haptics from 'expo-haptics';
 
 const { width } = Dimensions.get('window');
 
@@ -11,6 +12,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const navigation2Profile = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     // router.push('/(profile)');
   };
 
@@ -49,7 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     flexDirection: 'column',
-    backgroundColor: '#131514',
   },
   container: {
     flexDirection: 'row',
