@@ -3,8 +3,6 @@ import { ThemedText } from '@/components/ThemedText';
 import { Link} from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import tasks from '@/assets/data/tasks';
-import TaskList from '@/components/TaskList';
 import workouts from '@/assets/data/workouts';
 import { WorkoutComponent } from '@/components/WorkoutComponent';
 

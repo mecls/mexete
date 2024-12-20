@@ -31,9 +31,11 @@ const Workout = ({ workout }: { workout: any[] }) => {
           <View style={styles.subcontainer}>
             <Text>Workout</Text>
             <View style={styles.wBox2}>
-              <TouchableOpacity>
+              <View style={styles.pContainer_plus}>
+              <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
                 <AntDesign name="pluscircleo" size={24} color="#636363" />
               </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -41,13 +43,60 @@ const Workout = ({ workout }: { workout: any[] }) => {
     } else if (workout.length === 1) {
       return (
         <View style={styles.container2}>
-          <View style={styles.subcontainer}>
-            <Text>Workout</Text>
-            <View style={styles.wBox2}>
-              <Text>{workout[0]?.title || 'No title available'}</Text>
+          {workout[0].title === "Run"?(
+              <View key={workout[0].id} style={styles.wBox}>
+              <View style={{flexDirection:'row', alignItems:'center'}}>
+                <ThemedText type='title'>{workout[0].title || 'No title available'}</ThemedText>
+                   <Checkbox style={styles.checkbox} value={workoutChecks[workout[0].id]} onValueChange={() => toggleSubtask(workout[0].id)}/>
+                   <ThemedText style={{alignSelf:'center', marginLeft:10}} type='defaultSemiBold'>[{workout[0].description.totalTime || 'No title available'}min]</ThemedText>
+              </View>
+              <ThemedText type='defaultSemiBold'>{workout[0].description.title || 'No title available'}</ThemedText>
+              <View style={{alignContent:'center', padding:5, gap:5 }}>
+                  <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                    <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                    {/* To change the size of the whole box around the arrow just change this size */}
+                     <FontAwesome name="arrow-right" size={12} color="white" /> 
+                    </LinearGradient>                  
+                     <ThemedText type='defaultSemiBold'>{workout[0].description.cooldown || 'No title available'}km warmup</ThemedText>
+                  </View>
+                  <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                    <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                      <FontAwesome name="arrow-right" size={12} color="white" />
+                    </LinearGradient>                  
+                    <ThemedText type='defaultSemiBold'>{workout[0].description.split || 'No title available'} x {workout[0].description.splitTime || 'No title available'}min</ThemedText>
+                  </View>
+                  <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                    <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                      <FontAwesome name="arrow-right" size={12} color="white" />
+                    </LinearGradient>
+                    <ThemedText type='defaultSemiBold'>{workout[0].description.rest || 'No title available'} x {workout[0].description.restTime || 'No title available'}min</ThemedText>
+                  </View>
+                  <View style={{flexDirection:'row', alignItems:'baseline', gap:5}}>
+                    <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}> 
+                      <FontAwesome name="arrow-right" size={12} color="white"/>
+                    </LinearGradient>                  
+                    <ThemedText type='defaultSemiBold'>{workout[0].description.cooldown || 'No title available'}km cooldown</ThemedText>
+                  </View>
+                </View>
+              </View>
+          ):(
+            <View key={workout[0].id} style={styles.wBox}>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+              <ThemedText type='title'>{workout[0].title || 'No title available'}</ThemedText>
+                 <Checkbox style={styles.checkbox} value={workoutChecks[workout[0].id]} onValueChange={() => toggleSubtask(workout[0].id)}/>
+                 <ThemedText style={{alignSelf:'center', marginLeft:10}} type='defaultSemiBold'>[{workout[0].description.totalTime || 'No title available'}min]</ThemedText>
             </View>
-          </View>
+            <ThemedText type='defaultSemiBold'>{workout[0].description.title || 'No title available'}</ThemedText>
+            </View>
+          )}
+              
+            <View style={styles.infoContainer2}>
+                <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                  <FontAwesome5 name="info-circle" size={24} color="#636363" />
+                </TouchableOpacity>
+              </View>
         </View>
+        
       );
     } else if (workout.length >= 2) {
       return (
@@ -154,6 +203,10 @@ const styles = StyleSheet.create({
         marginTop:100,
       },
     container2: {
+      flexDirection: 'row',
+      paddingTop:10,
+      gap:15,
+      marginRight:width/2,
       },
     stats_container: {
         flexDirection: 'row',
@@ -211,6 +264,12 @@ const styles = StyleSheet.create({
       position:'absolute',
       marginTop:120,
       paddingRight:5,
+    },
+    infoContainer2:{
+      alignSelf:'flex-end',
+      position:'absolute',
+      marginLeft:148,
+      paddingBottom:5,
     },
     pContainer_plus:{
       alignSelf:'center',
