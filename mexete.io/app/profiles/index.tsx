@@ -3,38 +3,17 @@ import { ThemedText } from '@/components/ThemedText';
 import { Link} from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import workouts from '@/assets/data/workouts';
-import { WorkoutComponent } from '@/components/WorkoutComponent';
-import { LinearGradient } from 'expo-linear-gradient';
+import TaskList from '@/components/TaskList';
 
 const { width } = Dimensions.get('window');
 
-export default function WorkoutScreen() {
+export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container} >
-        <ThemedText style={{alignSelf:'center', paddingTop:5}} type="title">Today</ThemedText>
-        <View style={styles.flContainer}>
-        <View style={styles.flContainer}>
-                  {/* Workouts List */}
-            <WorkoutComponent workouts={workouts}/>
-        </View>
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.all_box} >
-              <TouchableOpacity  >
-                <Link href={'/viewAll'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                  <ThemedText type='defaultSemiBold'>View All</ThemedText>
-                </Link>
-              </TouchableOpacity>
-            </View>
-              <TouchableOpacity style={styles.plus_box}>
-             <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-              <AntDesign name="pluscircleo" size={55} color="white" />
-             </Link>
-             </TouchableOpacity>
-        </View>
+        <ThemedText style={{alignSelf:'center', paddingTop:5}} type="title">Profile Page</ThemedText>
+       
       </View>
     </SafeAreaView>
   );
@@ -43,28 +22,29 @@ export default function WorkoutScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex:1,
-    margin:10,
-    flexDirection:'row',
+    alignItems:'center',
+    flexDirection:'column',
+
   },
   container: {
     flex:1,
     flexDirection: 'column',
-    gap: 20, 
-    paddingTop:15,
     alignContent:'center',
     alignSelf:'center',
+    gap: 30, 
+    paddingTop:15,
   },
   flContainer: {
     flex:8,
   },
   footer: {
-    // flex:2,
+    flex:2,
     flexDirection: 'row',
     justifyContent: 'space-between', // Ensure consistent spacing
     alignItems: 'center',
     paddingHorizontal: 20, // Add padding for safe spacing
     marginBottom: 25,
-  },  
+  },
   all_box: {
     backgroundColor: '#636363',
     borderRadius: 10,

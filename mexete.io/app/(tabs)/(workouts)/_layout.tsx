@@ -27,5 +27,6 @@ export default function WorkoutLayout() {
                 ),
               }}
             />
+          <Stack.Screen name="viewAll" options={{title: 'All Workouts', headerShown:true, headerTintColor:'#fff', headerTitleStyle:{fontWeight:'bold'},headerTransparent:true}}/>
   </Stack>
 };

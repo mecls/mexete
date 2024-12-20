@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Stack, Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -45,13 +45,6 @@ export default function TabLayout() {
         options={{
           title: 'Workouts',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="dumbbell.fill" color={color} />,
-        }}
-      />
-        <Tabs.Screen
-        name="(hobbies)"
-        options={{
-          title: 'Hobbies',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="puzzlepiece.fill" color={color} />,
         }}
       />
     </Tabs>

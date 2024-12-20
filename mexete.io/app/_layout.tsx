@@ -34,6 +34,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false, title:'Main' }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="profiles" options={{title: 'Profile', headerShown:true, headerTintColor:'#fff', headerTitleStyle:{fontWeight:'bold'}, headerTransparent:true}}/>
+        
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

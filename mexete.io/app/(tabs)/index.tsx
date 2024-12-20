@@ -9,12 +9,6 @@ import * as Haptics from 'expo-haptics';
 const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
-  const router = useRouter();
-
-  const navigation2Profile = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    // router.push('/(profile)');
-  };
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -25,8 +19,9 @@ export default function HomeScreen() {
           <ThemedText type="default" style={styles.boxThree}>Today</ThemedText>
         </View>
         <View style={styles.userInfoSection}>
-            <Link href={'/(tabs)/(tasks)'} asChild>
-              <TouchableOpacity onPress={navigation2Profile}>
+            <Link href={'/profiles'} asChild>
+              <TouchableOpacity onPress={ () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+}>
               <LinearGradient
                 colors={["#FF3131", "#FF9F31"]} // Gradient colors
                 start={{ x: 0, y: 0 }} // Adjust gradient direction (top-left to bottom-right)

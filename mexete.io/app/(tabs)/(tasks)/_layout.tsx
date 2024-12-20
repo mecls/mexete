@@ -26,7 +26,6 @@ export default function TasksLayout() {
                 ),
               }}
             />
-            <Stack.Screen name="viewAll" options={{title: 'All Tasks', headerShown:true, headerTintColor:'#fff', headerTitleStyle:{fontWeight:'bold'},
-}}/>
+            <Stack.Screen name="viewAll" options={{title: 'All Tasks', headerShown:true, headerTintColor:'#fff', headerTitleStyle:{fontWeight:'bold'},headerTransparent:true}}/>
   </Stack>
 };

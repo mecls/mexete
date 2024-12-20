@@ -4,11 +4,11 @@ import ViewAllComponent from '@/components/ViewAllTasks';
 import tasks from '@/assets/data/tasks';
 
 
-export default function ViewAllTasks() {
+export default function ViewAllWorkouts() {
   return (
    <SafeAreaView style={styles.mainContainer}>
-    <View >
-      <ViewAllComponent tasks={tasks}/>
+    <View>
+        <ThemedText>View All workouts</ThemedText>
     </View>
     </SafeAreaView>
   );
