@@ -1,9 +1,5 @@
-import { StyleSheet, SafeAreaView, Button, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { Link} from 'expo-router';
-import * as Haptics from 'expo-haptics';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import TaskList from '@/components/TaskList';
 
 const { width } = Dimensions.get('window');
 

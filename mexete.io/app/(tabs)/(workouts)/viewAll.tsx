@@ -1,7 +1,5 @@
 import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import ViewAllComponent from '@/components/ViewAllTasks';
-import tasks from '@/assets/data/tasks';
 
 
 export default function ViewAllWorkouts() {

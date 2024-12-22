@@ -2,7 +2,6 @@ import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity, FlatList 
 import { ThemedText } from '@/components/ThemedText';
 import Checkbox from 'expo-checkbox';
 import { useMemo, useState } from 'react';
-import { Priorities } from '../assets/types';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from 'expo-router';
 import * as Haptics from 'expo-haptics';

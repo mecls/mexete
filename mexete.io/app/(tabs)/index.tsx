@@ -1,6 +1,6 @@
 import { StyleSheet, View, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Avatar } from 'react-native-paper';
 import MainComponent from '@/components/MainComponent';
 import { LinearGradient } from 'expo-linear-gradient'
