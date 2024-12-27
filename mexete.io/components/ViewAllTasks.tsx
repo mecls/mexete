@@ -80,11 +80,12 @@ const TaskItem = ({ task}: { task: any}) => {
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
   
   return (
-    <FlatList
-      data={tasks}
-      renderItem={({ item }) => <TaskItem task={item} />}
-      keyExtractor={(item) => item.id.toString()}
-    />
+
+        <FlatList
+          data={tasks}
+          renderItem={({ item }) => <TaskItem task={item} />}
+          keyExtractor={(item) => item.id.toString()}
+        />
   );
 };
 
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
         flex:1,
         margin:0,
         alignItems:'center',
+        marginTop:10,
         flexDirection:'column',
     },
     percentageText: {

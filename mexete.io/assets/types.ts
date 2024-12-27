@@ -27,7 +27,7 @@ export type Workout = Readonly<{
     id: number;
     title: string;
     date: Date | undefined;  // 'date' can be undefined
-    description?: any | undefined; 
+    description: string | undefined; 
     time: number | undefined;
 }>;
 

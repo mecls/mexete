@@ -7,8 +7,14 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import PriorityList from '@/components/PriorityList';
 import tasks from '@/assets/data/tasks';
+import { MainWorkoutComponent } from './MainWorkoutComponent';
+import workouts from '@/assets/data/workouts';
+import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 
 const { width } = Dimensions.get('window');
+
+
+
 
 export default function MainComponent() {
   const strkDays= "89";
@@ -38,12 +44,9 @@ export default function MainComponent() {
             </View>
             <View style={styles.subcontainer2}>
             <View style={styles.hBox}>
-            <ThemedText type='defaultSemiBold'>Workout:</ThemedText>
             <View style={styles.hContainer_plus}>
-                  <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                  <AntDesign name="pluscircleo" size={24} color="#636363" />
-                  </TouchableOpacity>
-             </View>
+               <MainWorkoutComponent workouts={workouts}/>
+            </View>
             </View>
         </View>
         </View>
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     },
     sBox:{
       width:width*0.40,
-      height:150,
+      height:140,
       marginTop:5,
       padding:10,
       position:'static',
@@ -111,8 +114,7 @@ const styles = StyleSheet.create({
     hBox:{
       width:width*0.40,
       height:100,
-      marginTop:5,
-      padding:10,
+      marginTop:10,
       alignSelf:'flex-end',
       position:'static',
       backgroundColor:'#202020',
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
       flex:1,
     },
     strkImg:{
-      marginTop:-10,
+      marginTop:-20,
       alignSelf:'center',
       position:'fixed',
       borderCurve: 'continuous',
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     infoContainer:{
       alignSelf:'flex-end',
       position:'absolute',
-      marginTop:120,
+      marginTop:110,
       paddingRight:5,
     },
     pContainer_plus:{

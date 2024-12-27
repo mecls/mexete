@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     paddingTop:15,
   },
   flContainer: {
-    flex:8,
+    flex:9,
   },
   footer: {
     flex:2,
