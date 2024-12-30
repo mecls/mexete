@@ -47,12 +47,13 @@ const tasks = [
     id: 3,
     title: 'Trash Out',
     priority_lvl: '',
+    date:'2024-12-03',
   },
   {
     id: 4,
     title: 'Apresentar Proj PCD',
     priority_lvl: '1',
-    date:new Date(),
+    date:'2024-12-31',
   },
   {
     id: 5,

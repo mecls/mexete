@@ -22,6 +22,7 @@ const Workout = ({ workout }: { workout: any[] }) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
+  const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   //Animated event
   const handleOnScroll = (event: any) =>{
@@ -88,6 +89,16 @@ const Workout = ({ workout }: { workout: any[] }) => {
     );
   }
 
+
+  const handleOnViewableItemsChanged = useRef(({viewableItems}: {viewableItems: any})=>{
+      // console.log(viewableItems);
+      setIndex(viewableItems[0]?.index);
+  }).current;
+
+  const viewabilityConfig = useRef({
+    itemVisiblePercentThreshold: 50,
+  }).current;
+
   return (
     <View>
       <FlatList
@@ -96,10 +107,12 @@ const Workout = ({ workout }: { workout: any[] }) => {
         renderItem={renderWorkoutItem}
         contentContainerStyle={workout.length === 1 ? styles.singleContainer : styles.container}
         horizontal pagingEnabled snapToAlignment='center' showsHorizontalScrollIndicator={false}
-        onScroll={handleOnScroll}
+        onScroll={handleOnScroll} 
+        onViewableItemsChanged={handleOnViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
       />
       <View style={{alignSelf:'center', marginTop:10}}>
-      <Pagination workout={workout} scrollX={scrollX}/>
+      <Pagination workout={workout} scrollX={scrollX} index={index}/>
       </View>
     </View>
   );

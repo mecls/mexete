@@ -1,9 +1,9 @@
 import { StyleSheet, Animated, View, Dimensions } from 'react-native'
 import React from 'react'
 
-const { width } = Dimensions.get("screen");
+const { width } = Dimensions.get("window");
 
-const Pagination = ({ workout, scrollX }: { workout: any[], scrollX: any }) => {
+const Pagination = ({ workout, scrollX, index }: { workout: any[], scrollX: any, index:number }) => {
   return (
     <View style={styles.container}>
         {workout.map((_: any,idx: any)=>{
@@ -16,9 +16,19 @@ const Pagination = ({ workout, scrollX }: { workout: any[], scrollX: any }) => {
                 outputRange:[12,30,12],
                 extrapolate:'clamp'
             });
+            const backgroundColor= scrollX.interpolate({
+                // interpolate will select a value between 12 and 30
+                inputRange,
+                //  first slide, selected , second slide
+                outputRange:['#636363','#fff','#636363'],
+                extrapolate:'clamp'
+            });
 
             return(
-                <Animated.View key={idx.toString()} style={[styles.dot, {width:dotWidth}]}/>      
+                <Animated.View key={idx.toString()} style={[styles.dot, {width:dotWidth, backgroundColor},
+                    // idx ===index && styles.dotActive
+
+                ]}/>      
             )
         })
         }
@@ -39,5 +49,8 @@ const styles = StyleSheet.create({
         borderRadius:4,
         backgroundColor:'#636363',
         marginHorizontal:3
+    },
+    dotActive:{
+        backgroundColor:'#000'
     }
 })

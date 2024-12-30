@@ -80,7 +80,6 @@ const TaskItem = ({ task}: { task: any}) => {
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
   
   return (
-
         <FlatList
           data={tasks}
           renderItem={({ item }) => <TaskItem task={item} />}
