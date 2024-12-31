@@ -4,7 +4,7 @@ const tasks = [
     id: 0,
     title: 'Exercicios AR',
     priority_lvl: '1',
-    date:new Date(),
+    date:'2024-12-30',
     // end_date:'',
     subtasks: [
       {

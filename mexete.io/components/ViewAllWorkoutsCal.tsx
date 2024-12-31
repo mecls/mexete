@@ -1,13 +1,10 @@
 import { useState, useMemo } from 'react';
-import { CalendarProvider, CalendarUtils, WeekCalendar } from 'react-native-calendars';
-import tasks from '@/assets/data/tasks';
+import { CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import { View, StyleSheet } from 'react-native';
-import { MarkedDatesType, PriorityLevel } from '@/assets/types';
-import { LinearGradient } from 'expo-linear-gradient';
+import workouts from '@/assets/data/workouts';
 
 const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) => {
     const [selected, setSelected] = useState(new Date());
-    
 
 //   // Helper function to get dot color based on priority
 //   const getColorByPriority = (priority: string | undefined) => {
@@ -53,9 +50,9 @@ const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) =
   
 
     const getItemCount=() => {
-        return tasks.filter(task => {
-            const taskDate = task.date ? new Date(task.date) : null;
-            return taskDate && taskDate.toISOString().split('T')[0] === selectedDate.toString().split('T')[0];
+        return workouts.filter(workout => {
+            const workoutDate = workout.date ? new Date(workout.date) : null;
+            return workoutDate && workoutDate.toISOString().split('T')[0] === selectedDate.toString().split('T')[0];
         }).length;
     }
 
@@ -78,7 +75,7 @@ const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) =
             <CalendarProvider date={selectedDate} onDateChanged={onDateChange} style={{ marginBottom: 10 }} >
                 <WeekCalendar
 
-                    testID={`task_${tasks[0]?.id}`} // Assign testID dynamically based on task ID
+                    testID={`task_${workouts[0]?.id}`} // Assign testID dynamically based on task ID
                     onDayPress={(day) => {
                         onDateChange(day.dateString); // Notify parent when a date is clicked
                     }}

@@ -91,7 +91,6 @@ export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex:1,
-        margin:0,
         alignItems:'center',
         marginTop:10,
         flexDirection:'column',

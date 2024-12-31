@@ -1,41 +1,82 @@
-import { StyleSheet, SafeAreaView, Button, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { Link} from 'expo-router';
-import * as Haptics from 'expo-haptics';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import { MainWorkoutComponent } from '@/components/MainWorkoutComponent';
 import workouts from '@/assets/data/workouts';
 import { WorkoutComponent } from '@/components/WorkoutComponent';
-import { LinearGradient } from 'expo-linear-gradient';
+import { ViewAllWorkoutsComponent } from '@/components/ViewAllWorkoutsComponent';
+import { useState } from 'react';
+import ViewAllWorkoutsCal from '@/components/ViewAllWorkoutsCal';
+import { Link } from 'expo-router';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import * as Haptics from 'expo-haptics';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 
-export default function WorkoutScreen() {
+export default function ViewAllWorkouts() {
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
+
+  const [currentMonthYear, setCurrentMonthYear] = useState({
+    month: new Date().toLocaleString('default', { month: 'long' }),
+    year: new Date().getFullYear(),
+  });
+
+  const handleDateChange = (date: any) => {
+
+    setSelectedDate(date); // Update selected date when a day is clicked
+    const newDateObject = new Date(date);
+    const monthName = newDateObject.toLocaleString('default', { month: 'long' });
+    const year = newDateObject.getFullYear();
+
+    setCurrentMonthYear({
+      month: monthName,
+      year: year,
+    });
+  };
+
+  const handleMonthChange = (monthInfo: { year: number; month: number }) => {
+    const { year, month } = monthInfo;
+    const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long' });
+
+    setCurrentMonthYear({
+      month: monthName,
+      year: year,
+    });
+  };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.container} >
-        <ThemedText style={{alignSelf:'center', paddingTop:5}} type="title">Today</ThemedText>
-        <View style={styles.flContainer}>
-        <View style={styles.flContainer}>
-                  {/* Workouts List */}
-            <WorkoutComponent workouts={workouts}/>
+   <SafeAreaView style={styles.mainContainer}>
+    <View>
+      {/* Month and Year Header */}
+      <View style={styles.monthYearContainer}>
+          <ThemedText type='title' >
+            {currentMonthYear.month} {currentMonthYear.year}
+          </ThemedText>
         </View>
+        {/* Calendar Component */}
+        <View style={styles.con_calender}>
+          <ViewAllWorkoutsCal
+            selectedDate={selectedDate}
+            onDateChange={handleDateChange} // Pass date change handler
+            onMonthChange={handleMonthChange} // Pass month change handler
+          />
         </View>
-        <View style={styles.footer}>
-          <View style={styles.all_box} >
-              <TouchableOpacity  >
-                <Link href={'/viewAll'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                  <ThemedText type='defaultSemiBold'>View All</ThemedText>
-                </Link>
-              </TouchableOpacity>
-            </View>
-              <TouchableOpacity style={styles.plus_box}>
-             <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-              <AntDesign name="pluscircleo" size={55} color="white" />
-             </Link>
-             </TouchableOpacity>
-        </View>
+      <View style={styles.container}>
+          <ViewAllWorkoutsComponent workouts={workouts.filter(workout => {
+              const workoutDate = workout.date
+                ? new Date(workout.date).toISOString().split('T')[0]
+                : ''; // Fallback if task.date is undefined
+              return workoutDate === selectedDate;
+            })}
+         />
       </View>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.plus_box}>
+          <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+            <AntDesign name="pluscircleo" size={55} color="white" />
+          </Link>
+        </TouchableOpacity>
+      </View>
+    </View>
     </SafeAreaView>
   );
 }
@@ -43,47 +84,43 @@ export default function WorkoutScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex:1,
+    alignItems:'center',
+    flexDirection:'column',
+  },
+  con_calender:{
+    flex:1/9,
+    backgroundColor:'#fff',
+    width: width,
+    marginTop:10,
+    marginBottom:10,
+  },
+  calender_layout:{
     margin:10,
-    flexDirection:'row',
+  },
+  monthYearContainer: {
+    marginTop: 30,
+    marginLeft:20,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   container: {
-    flex:1,
-    flexDirection: 'column',
-    gap: 20, 
-    paddingTop:15,
-    alignContent:'center',
-    alignSelf:'center',
-  },
-  flContainer: {
-    flex:8,
+    flex:0.8,
+    flexDirection: 'row',
+    alignSelf:'flex-start',
   },
   footer: {
-    // flex:2,
     flexDirection: 'row',
-    justifyContent: 'space-between', // Ensure consistent spacing
-    alignItems: 'center',
-    paddingHorizontal: 20, // Add padding for safe spacing
-    marginBottom: 25,
-  },  
-  all_box: {
-    backgroundColor: '#636363',
-    borderRadius: 10,
-    width: width * 0.25,
-    height: 45,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    position: 'absolute',
-    bottom: 60, // Fixed distance from the bottom
-    left: 20,   // Fixed distance from the left
+    alignSelf: 'flex-end',
+    position:'absolute',
+  },
+  wBox2:{
+    width:width*0.4,
+    marginLeft:10,
+    height:255,
   },
   plus_box: {
     backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    position: 'absolute',
-    bottom: 45, // Fixed distance from the bottom
-    right: 20,  // Fixed distance from the right
+    marginRight:50,
+    marginTop: height*0.73
   },
 });

@@ -8,9 +8,19 @@ export type Task = Readonly<{
     date: Date | undefined;  // 'date' can be undefined
     subtask?: string | undefined;
     subtask_id?: number | undefined;
-    priority_lvl?: [PriorityLevel]; // Single priority level
+    priority_lvl?: PriorityLevel; // Single priority level
     time2finish?: string | undefined;
 }>;
+
+export type MarkedDatesType = {
+    [key: string]: {
+      dots: { color: string }[];
+      marked?: boolean;
+      disableTouchEvent?: boolean;
+      selectedColor?: string;
+      selectedTextColor?: string;
+    };
+  };
 
 // Define Priorities structure with a 'user_id' and optional 'priority_item' list
 export type Priorities = {
