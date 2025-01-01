@@ -36,11 +36,10 @@ export type PrioritiesItem = {
 export type Workout = Readonly<{
     id: number;
     title: string;
-    date: Date | undefined;  // 'date' can be undefined
+    date: Date | string | undefined; 
     description: string | undefined; 
     time: number | undefined;
 }>;
-
 // Profile type for managing user data
 export type Profile = {
     id: string;

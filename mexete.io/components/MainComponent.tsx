@@ -3,13 +3,11 @@ import { View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 're
 import { ThemedText } from './ThemedText';
 import { Avatar } from 'react-native-paper';
 import * as Haptics from 'expo-haptics';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import PriorityList from '@/components/PriorityList';
 import tasks from '@/assets/data/tasks';
 import { MainWorkoutComponent } from './MainWorkoutComponent';
 import workouts from '@/assets/data/workouts';
-import { ScrollView } from 'react-native-reanimated/lib/typescript/Animated';
 
 const { width } = Dimensions.get('window');
 
@@ -23,13 +21,13 @@ export default function MainComponent() {
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <View style={styles.subcontainer}>
-            <ThemedText type='subtitle'>Priorities</ThemedText>
+            <ThemedText type='title'>Priorities</ThemedText>
             <View style={styles.pBox}>
             <PriorityList tasks={tasks} />
             </View>
         </View>
         <View style={styles.subcontainer2}>
-            <ThemedText type='subtitle'>Streak</ThemedText>
+            <ThemedText type='title'>Streak</ThemedText>
             <View style={styles.sBox}>
               <View style={styles.containerStrk}>
               <Avatar.Image size={40} style={{backgroundColor:'transparent'}} source={require('../assets/images/solar_fire-bold.png')} />
@@ -53,7 +51,7 @@ export default function MainComponent() {
       </View>
       <View style={styles.container}>
         <View style={styles.subcontainer3}>
-              <ThemedText type='subtitle'>Monthly Stats</ThemedText>
+              <ThemedText type='title'>Monthly Stats</ThemedText>
               <View style={styles.mBox}>
                 <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
                 <View style={styles.m_infoContainer}>

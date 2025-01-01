@@ -1,10 +1,9 @@
-import { StyleSheet, SafeAreaView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity } from 'react-native';
 import ViewAllComponent from '@/components/ViewAllTasks';
 import tasks from '@/assets/data/tasks';
 import CalendarComponent from '@/components/CalendarComponent';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
-import { PriorityLevel } from '@/assets/types';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';

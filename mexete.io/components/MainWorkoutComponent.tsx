@@ -3,17 +3,15 @@ import { View, Text, SafeAreaView, FlatList, TouchableOpacity, StyleSheet, Scrol
 import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Checkbox from 'expo-checkbox'; // Assuming this is the correct import for your Checkbox
-import Haptics from 'expo-haptics';
+import * as Haptics from 'expo-haptics';
 import { ThemedText } from './ThemedText';
 import Pagination from './Pagination';
 import workouts from '@/assets/data/workouts';
 
 const { width } = Dimensions.get("screen");
 
-
-const Workout = ({ workout }: { workout: any[] }) => {
-
-  const [workoutChecks, setWorkoutChecks] = useState(workout?.map(() => false) || []);
+const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
+  const [workoutChecks, setWorkoutChecks] = useState(workout?.map(() => false) ?? []);
 
   const toggleSubtask = (index: number) => {
     const updatedChecks = [...workoutChecks];
@@ -42,7 +40,7 @@ const Workout = ({ workout }: { workout: any[] }) => {
   };
 
   const renderWorkoutItem = ({ item }: { item: any }) => (
-    <View key={item.id} style={styles.container3}>
+    <View key={item.id && item.date} style={styles.container3}>
       <View style={{alignItems:'flex-start', marginRight:10}}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <ThemedText type="title">{item.title || 'No title available'}</ThemedText>
@@ -120,7 +118,7 @@ const Workout = ({ workout }: { workout: any[] }) => {
 
 export const MainWorkoutComponent = ({ workouts }: { workouts: any[] }) => (
   <SafeAreaView>
-    <Workout workout={workouts} />
+    <Workout workout={workouts} date={new Date()}/>
   </SafeAreaView>
 );
 

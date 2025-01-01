@@ -20,8 +20,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.userInfoSection}>
             <Link href={'/profiles'} asChild>
-              <TouchableOpacity onPress={ () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-}>
+              <TouchableOpacity onPress={ () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
               <LinearGradient
                 colors={["#FF3131", "#FF9F31"]} // Gradient colors
                 start={{ x: 0, y: 0 }} // Adjust gradient direction (top-left to bottom-right)
@@ -60,11 +59,14 @@ const styles = StyleSheet.create({
   },
   boxOne: {
     alignSelf: 'center',
+    fontSize:26,
   },
   boxTwo: {
     marginTop: -15,
     alignItems: 'center',
     textAlign: 'center',
+    fontSize:26,
+
   },
   boxThree: {
     marginTop: 0,

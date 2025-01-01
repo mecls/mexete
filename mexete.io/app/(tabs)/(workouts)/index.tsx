@@ -1,14 +1,12 @@
 import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { MainWorkoutComponent } from '@/components/MainWorkoutComponent';
 import workouts from '@/assets/data/workouts';
-import { WorkoutComponent } from '@/components/WorkoutComponent';
-import { ViewAllWorkoutsComponent } from '@/components/ViewAllWorkoutsComponent';
 import { useState } from 'react';
 import ViewAllWorkoutsCal from '@/components/ViewAllWorkoutsCal';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';
+import { WorkoutComponent } from '@/components/WorkoutComponent';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -48,7 +46,7 @@ export default function ViewAllWorkouts() {
     <View>
       {/* Month and Year Header */}
       <View style={styles.monthYearContainer}>
-          <ThemedText type='title' >
+          <ThemedText type='title'>
             {currentMonthYear.month} {currentMonthYear.year}
           </ThemedText>
         </View>
@@ -61,7 +59,7 @@ export default function ViewAllWorkouts() {
           />
         </View>
       <View style={styles.container}>
-          <ViewAllWorkoutsComponent workouts={workouts.filter(workout => {
+          <WorkoutComponent workouts={workouts.filter(workout => {
               const workoutDate = workout.date
                 ? new Date(workout.date).toISOString().split('T')[0]
                 : ''; // Fallback if task.date is undefined
@@ -71,7 +69,7 @@ export default function ViewAllWorkouts() {
       </View>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.plus_box}>
-          <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+          <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
             <AntDesign name="pluscircleo" size={55} color="white" />
           </Link>
         </TouchableOpacity>

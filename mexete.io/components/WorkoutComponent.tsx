@@ -8,8 +8,9 @@ import { LinearGradient } from 'expo-linear-gradient'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Checkbox from 'expo-checkbox';
 import * as Haptics from 'expo-haptics';
+import WeekWorkoutTracker from './WeekWorkoutTracker';
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('screen');
 
 
 const Workout = ({ workout }: { workout: any[] }) => {
@@ -27,18 +28,15 @@ const Workout = ({ workout }: { workout: any[] }) => {
   
     if (workout.length === 0) {
       return (
-        <View style={styles.container2}>
-          <View style={styles.subcontainer}>
-            <Text>Workout</Text>
-            <View style={styles.wBox2}>
-              <View style={styles.pContainer_plus}>
-              <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                <AntDesign name="pluscircleo" size={24} color="#636363" />
-              </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
+           <View style={styles.container2}>
+                   <Text>Workout</Text>
+                   <View style={styles.wBox2}>
+                     {/* <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                       <AntDesign name="pluscircleo" size={24} color="#636363" />
+                     </TouchableOpacity> */}
+                     <ThemedText type='subtitle'>You don't have workouts for today</ThemedText>
+                   </View>
+               </View>
       );
     } else if (workout.length === 1) {
       return (
@@ -146,7 +144,7 @@ const Workout = ({ workout }: { workout: any[] }) => {
               )}
 
 
-              <View style={styles.m_infoContainer}>
+              <View style={styles.infoContainer}>
                 <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
                   <FontAwesome5 name="info-circle" size={24} color="#636363" />
                 </TouchableOpacity>
@@ -168,20 +166,8 @@ export const WorkoutComponent = ({ workouts }: { workouts: any[] })=>{
   return (
    
         <SafeAreaView style={styles.mainContainer}>
-                <Workout workout={workouts}/>
-            <View style={styles.stats_container}>
-                <View style={styles.subcontainer3}>
-                <ThemedText type='title'>Week Stats</ThemedText>
-                     <View style={styles.mBox}>
-                        <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
-                        <View style={styles.m_infoContainerStats}>
-                          <TouchableOpacity  onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                            <FontAwesome5 name="info-circle" size={24} color="#636363" />
-                          </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>   
-            </View>
+            <Workout workout={workouts}/>
+            <WeekWorkoutTracker/>
         </SafeAreaView>
       );
 }
@@ -191,11 +177,9 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems:'center',
       flexDirection:'column',
-      marginTop:10,
     },
     container: {
       flexDirection: 'row',
-      paddingTop:10,
       gap:15,
     },
     hContainer_plus:{
@@ -204,13 +188,12 @@ const styles = StyleSheet.create({
       },
     container2: {
       flexDirection: 'row',
-      paddingTop:10,
-      gap:15,
       marginRight:width/2,
       },
     stats_container: {
         flexDirection: 'row',
         marginTop:15,
+        marginLeft:10
       },
     wBox:{
       width:width*0.45,
@@ -225,45 +208,24 @@ const styles = StyleSheet.create({
       alignItems:'flex-start',
     },
     wBox2:{
-        width:width*0.45,
-        marginLeft:10,
-        height:255,
-        marginTop:5,
-        padding:10,
-        position:'static',
-        alignSelf:'flex-end',
-        backgroundColor:'#202020',
-        borderCurve:'continuous',
-        borderRadius:20,
-        alignItems:'flex-start',
+      width:width*0.45,
+      height:255,
+      marginTop:5,
+      padding:10,
+      marginRight:55,
+      position:'static',
+      alignSelf:'flex-start',
+      backgroundColor:'#202020',
+      borderCurve:'continuous',
+      borderRadius:20,
+      alignItems:'flex-start',
       },
       gradientBorder: {
         borderRadius: 5, // Adjust for the image size + border width
         padding: 5, // Optional: adds padding around the image to show the gradient border
       },
-    mBox:{
-        width:width*0.95,
-        height:180,
-        marginTop:5,
-        padding:10,
-        marginRight:5,
-        position:'static',
-        alignSelf:'flex-start',
-        backgroundColor:'#202020',
-        borderCurve:'continuous',
-        borderRadius:20,
-    },
     subcontainer:{
-      flex:4
-    },
-    subcontainer3:{
-      flex:1,
-    },
-    infoContainer:{
-      alignSelf:'flex-end',
-      position:'absolute',
-      marginTop:120,
-      paddingRight:5,
+      flex:0
     },
     infoContainer2:{
       alignSelf:'flex-end',
@@ -275,16 +237,10 @@ const styles = StyleSheet.create({
       alignSelf:'center',
       marginTop:100,
     },
-    m_infoContainer:{
+    infoContainer:{
       alignSelf:'flex-end',
       position:'absolute',
       marginTop:225,
-      paddingRight:5,
-    },
-    m_infoContainerStats:{
-      alignSelf:'flex-end',
-      position:'absolute',
-      marginTop:150,
       paddingRight:5,
     },
     checkbox: {

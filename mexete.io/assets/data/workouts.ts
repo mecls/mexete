@@ -20,7 +20,7 @@ const workouts = [
     {
         id: 1,
         title: 'Gym',
-        date: new Date(new Date().setDate(new Date().getDate() + 1)), // Tomorrow's date
+        date: new Date(), 
         end_date:'',
         description: {
             title: 'Legs & Shoulders',
@@ -29,6 +29,19 @@ const workouts = [
             },
           },
       },
+      {
+        id: 2,
+        title: 'Run',
+        date:'2025-01-04',
+        // end_date:'',
+        description: {
+            title: 'Long Run',
+            split:1,
+            get totalTime(){
+              return 45;
+            },
+          },
+      }
   ];
 
   export default workouts;

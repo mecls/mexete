@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   taskText: {
     flex: 1, // Allow text to take available space
     fontSize: 16,
+    fontWeight:'bold'
   },
   checkbox: {
     marginLeft: 8, // Add spacing between text and checkbox
