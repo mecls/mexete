@@ -40,9 +40,27 @@ export type Workout = Readonly<{
     description: string | undefined; 
     time: number | undefined;
 }>;
+
+export type Profile = Pick<User, 'id' | 'username' | 'group'>;
 // Profile type for managing user data
-export type Profile = {
+export type User = Readonly<{
     id: string;
-    group: 'admin' | 'user' | 'guest'; // User role constraints
     username: string;
-};
+    email: string;
+    fullName?: string;
+    group: 'admin' | 'user' | 'guest';
+    streak?: {
+        count: number;
+        lastUpdated: Date;
+    };
+    preferences?: {
+        theme: 'light' | 'dark' | 'system';
+        notifications: boolean;
+    };
+    stats?: {
+        tasksCompleted: number;
+        workoutsCompleted: number;
+        joinedDate: Date;
+    };
+    avatar?: string;
+}>;
