@@ -36,7 +36,7 @@ export type PrioritiesItem = {
 export type Workout = Readonly<{
     id: number;
     title: string;
-    date: Date | string | undefined; 
+    date: Date | undefined;  // 'date' can be undefined
     description: string | undefined; 
     time: number | undefined;
 }>;

@@ -11,6 +11,24 @@ import workouts from '@/assets/data/workouts';
 const { width } = Dimensions.get("screen");
 
 const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
+  if (!date) {
+    console.warn("Date is undefined!");
+    return null;
+  }
+  // Get today's date once and set to midnight for comparison
+  const todaysDate = new Date();
+  todaysDate.setHours(0, 0, 0, 0);
+
+  const todaysWorkouts = workout.filter((item) => {
+    if (!item?.date) return false;
+    
+    const workoutDate = new Date(item.date);
+    workoutDate.setHours(0, 0, 0, 0);
+    
+    // Compare timestamp values instead of individual date components
+    return workoutDate.getTime() === todaysDate.getTime();
+  });
+
   const [workoutChecks, setWorkoutChecks] = useState(workout?.map(() => false) ?? []);
 
   const toggleSubtask = (index: number) => {
@@ -23,21 +41,18 @@ const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
   const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   //Animated event
-  const handleOnScroll = (event: any) =>{
-      Animated.event([
-        {
-          nativeEvent:{
-              contentOffset:{
-                x: scrollX,
-              },
+  const handleOnScroll = Animated.event(
+    [
+      {
+        nativeEvent: {
+          contentOffset: {
+            x: scrollX,
           },
         },
-      ],
-       {
-        useNativeDriver:false
-       },
-    )(event);
-  };
+      },
+    ],
+    { useNativeDriver: false }
+  );
 
   const renderWorkoutItem = ({ item }: { item: any }) => (
     <View key={item.id && item.date} style={styles.container3}>
@@ -88,9 +103,19 @@ const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
   }
 
 
-  const handleOnViewableItemsChanged = useRef(({viewableItems}: {viewableItems: any})=>{
-      // console.log(viewableItems);
-      setIndex(viewableItems[0]?.index);
+  const handleOnViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: any }) => {
+    if (viewableItems[0] && viewableItems[0].item && viewableItems[0].item.date) {
+      const workoutDate = new Date(viewableItems[0].item.date);
+      const today = new Date();
+  
+      if (
+        workoutDate.getDate() === today.getDate() &&
+        workoutDate.getMonth() === today.getMonth() &&
+        workoutDate.getFullYear() === today.getFullYear()
+      ) {
+        setIndex(viewableItems[0]?.index); 
+      }
+    }
   }).current;
 
   const viewabilityConfig = useRef({
@@ -100,7 +125,7 @@ const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
   return (
     <View>
       <FlatList
-        data={workout}
+        data={todaysWorkouts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderWorkoutItem}
         contentContainerStyle={workout.length === 1 ? styles.singleContainer : styles.container}
@@ -110,7 +135,7 @@ const Workout = ({ workout, date }: { workout: any[], date: Date }) => {
         viewabilityConfig={viewabilityConfig}
       />
       <View style={{alignSelf:'center', marginTop:10}}>
-      <Pagination workout={workout} scrollX={scrollX} index={index}/>
+      <Pagination workout={todaysWorkouts} scrollX={scrollX}/>
       </View>
     </View>
   );

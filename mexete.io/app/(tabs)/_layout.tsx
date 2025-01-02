@@ -18,14 +18,15 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        // Use a transparent background on iOS for blur effect
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
           default: {},
         }),
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -40,7 +41,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <FontAwesome name="list-ul" size={24} color={color} />,
         }}
       />
-        <Tabs.Screen
+      <Tabs.Screen
         name="(workouts)"
         options={{
           title: 'Workouts',

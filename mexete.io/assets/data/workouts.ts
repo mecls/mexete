@@ -12,6 +12,7 @@ const workouts = [
           rest:3,
           restTime: 3,
           cooldown:1,
+          distance:5,
           get totalTime(){
             return (this.split*this.splitTime) + (this.rest*this.restTime);
           },
@@ -36,7 +37,7 @@ const workouts = [
         // end_date:'',
         description: {
             title: 'Long Run',
-            split:1,
+            distance:8,
             get totalTime(){
               return 45;
             },
