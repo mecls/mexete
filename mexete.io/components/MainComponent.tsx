@@ -8,6 +8,7 @@ import PriorityList from '@/components/PriorityList';
 import tasks from '@/assets/data/tasks';
 import { MainWorkoutComponent } from './MainWorkoutComponent';
 import workouts from '@/assets/data/workouts';
+import StreakComponent from './StreakComponent';
 
 const { width } = Dimensions.get('window');
 
@@ -21,37 +22,23 @@ export default function MainComponent() {
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
         <View style={styles.subcontainer}>
-            <ThemedText type='title'>Priorities</ThemedText>
+            <ThemedText type='subtitle'>Priorities</ThemedText>
             <View style={styles.pBox}>
             <PriorityList tasks={tasks} />
             </View>
         </View>
         <View style={styles.subcontainer2}>
-            <ThemedText type='title'>Streak</ThemedText>
-            <View style={styles.sBox}>
-              <View style={styles.containerStrk}>
-              <Avatar.Image size={40} style={{backgroundColor:'transparent'}} source={require('../assets/images/solar_fire-bold.png')} />
-              <ThemedText type='streakTitle'>{strkDays}</ThemedText>
-              </View>
-            <Avatar.Image size={113} style={styles.strkImg} source={require('../assets/images/0_20lvl.png')} />
-            <View style={styles.infoContainer}>
-                <TouchableOpacity onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                   <FontAwesome5 name="info-circle" size={24} color="#636363" />
-                </TouchableOpacity>
-            </View>
-            </View>
-            <View style={styles.subcontainer2}>
+            <StreakComponent />
             <View style={styles.hBox}>
             <View style={styles.hContainer_plus}>
                <MainWorkoutComponent workouts={workouts}/>
-            </View>
             </View>
         </View>
         </View>
       </View>
       <View style={styles.container}>
         <View style={styles.subcontainer3}>
-              <ThemedText type='title'>Monthly Stats</ThemedText>
+              <ThemedText type='subtitle'>Monthly Stats</ThemedText>
               <View style={styles.mBox}>
                 <ThemedText type='default'>After you start using the app this will update automaticly.</ThemedText>
                 <View style={styles.m_infoContainer}>
@@ -71,6 +58,7 @@ const styles = StyleSheet.create({
       flex:1,
       padding:10,
       margin:10,
+      marginTop:20,
       alignItems:'center',
       flexDirection:'column',
     },
@@ -136,6 +124,7 @@ const styles = StyleSheet.create({
     },
     subcontainer2:{
       flex:3,
+      alignSelf:'flex-end',
     },
     subcontainer3:{
       flex:1,

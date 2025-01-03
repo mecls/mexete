@@ -41,14 +41,13 @@ export type Workout = Readonly<{
     time: number | undefined;
 }>;
 
-export type Profile = Pick<User, 'id' | 'username' | 'group'>;
+export type Profile = Pick<User, 'id' | 'username'>;
 // Profile type for managing user data
 export type User = Readonly<{
     id: string;
     username: string;
     email: string;
     fullName?: string;
-    group: 'admin' | 'user' | 'guest';
     streak?: {
         count: number;
         lastUpdated: Date;

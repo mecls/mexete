@@ -16,7 +16,6 @@ export default function HomeScreen() {
         <View style={styles.containerText}>
           <ThemedText type="title" style={styles.boxOne}>Make 10k/month</ThemedText>
           <ThemedText type="title" style={styles.boxTwo}>with app</ThemedText>
-          <ThemedText type="default" style={styles.boxThree}>Today</ThemedText>
         </View>
         <View style={styles.userInfoSection}>
             <Link href={'/profiles'} asChild>
@@ -51,6 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 20,
     paddingTop: 10,
+    marginTop:10,
   },
   containerText: {
     flexDirection: 'column',
