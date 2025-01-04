@@ -7,7 +7,7 @@ import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';
 import { WorkoutComponent } from '@/components/WorkoutComponent';
-
+import { LinearGradient } from 'expo-linear-gradient';
 const { width, height } = Dimensions.get('screen');
 
 export default function ViewAllWorkouts() {
@@ -42,10 +42,10 @@ export default function ViewAllWorkouts() {
   };
 
   return (
-   <SafeAreaView style={styles.mainContainer}>
-    <View>
-      {/* Month and Year Header */}
-      <View style={styles.monthYearContainer}>
+    <SafeAreaView style={styles.mainContainer}>
+      <View>
+        {/* Month and Year Header */}
+        <View style={styles.monthYearContainer}>
           <ThemedText type='title'>
             {currentMonthYear.month} {currentMonthYear.year}
           </ThemedText>
@@ -58,67 +58,85 @@ export default function ViewAllWorkouts() {
             onMonthChange={handleMonthChange} // Pass month change handler
           />
         </View>
-      <View style={styles.container}>
+        <View style={styles.container}>
           <WorkoutComponent workouts={workouts.filter(workout => {
-              const workoutDate = workout.date
-                ? new Date(workout.date).toISOString().split('T')[0]
-                : ''; // Fallback if task.date is undefined
-              return workoutDate === selectedDate;
-            })}
-         />
+            const workoutDate = workout.date
+              ? new Date(workout.date).toISOString().split('T')[0]
+              : ''; // Fallback if task.date is undefined
+            return workoutDate === selectedDate;
+          })}
+          />
+        </View>
+        <View style={styles.footer}>
+          <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}>
+          <TouchableOpacity>
+            <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+              <View style={styles.text_box}>
+              <AntDesign name="plus" size={24} color="white" />
+              <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Workout</ThemedText>
+              </View>
+            </Link>
+          </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.plus_box}>
-          <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-            <AntDesign name="pluscircleo" size={55} color="white" />
-          </Link>
-        </TouchableOpacity>
-      </View>
-    </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex:1,
-    alignItems:'center',
-    flexDirection:'column',
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
   },
-  con_calender:{
-    flex:1/9,
-    backgroundColor:'#fff',
+  con_calender: {
+    flex: 1 / 9,
+    backgroundColor: '#fff',
     width: width,
-    marginTop:10,
-    marginBottom:10,
+    marginTop: 10,
+    marginBottom: 10,
   },
-  calender_layout:{
-    margin:10,
+  calender_layout: {
+    margin: 10,
   },
   monthYearContainer: {
     marginTop: 30,
-    marginLeft:20,
+    marginLeft: 20,
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
   container: {
-    flex:0.8,
+    flex: 0.8,
     flexDirection: 'row',
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
   },
   footer: {
     flexDirection: 'row',
-    alignSelf: 'flex-end',
-    position:'absolute',
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: height * 0.75
   },
-  wBox2:{
-    width:width*0.4,
-    marginLeft:10,
-    height:255,
+  wBox2: {
+    width: width * 0.4,
+    marginLeft: 10,
+    height: 255,
   },
   plus_box: {
     backgroundColor: 'transparent',
-    marginRight:50,
-    marginTop: height*0.73
+    marginRight: 20,
+    marginTop: height * 0.73
   },
+  gradientBorder: {
+    borderRadius: 10,
+    width: 200,   // Explicit width
+    height: 45,  // Explicit height
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text_box: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  }
 });

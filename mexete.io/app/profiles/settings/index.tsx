@@ -4,6 +4,13 @@ import { ThemedText } from '@/components/ThemedText'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Avatar } from 'react-native-paper'
 import profile from '@/assets/data/profile'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Fontisto from '@expo/vector-icons/Fontisto';
+import Entypo from '@expo/vector-icons/Entypo';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import SettingsComponent from '@/components/SettingsComponent'
 
 const { width } = Dimensions.get('screen');
 
@@ -12,25 +19,31 @@ const settings = () => {
 
   return (
     <View style={styles.container}>
-        <View style={styles.profileContainer}>
-          <View style={styles.avatarContainer}>
-            <LinearGradient
-              colors={["#FF3131", "#FF9F31"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradientBorder}
-            >
-              <Avatar.Image
-                size={width * 0.15}
-                source={require('../../../assets/images/profileImg.png')}
-              />
-            </LinearGradient>
-          </View>
-          <View style={styles.nameContainer}>
+      <View style={styles.profileContainer}>
+        <View style={styles.avatarContainer}>
+          <LinearGradient
+            colors={["#FF3131", "#FF9F31"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradientBorder}
+          >
+            <Avatar.Image
+              size={width * 0.15}
+              source={require('../../../assets/images/profileImg.png')}
+            />
+          </LinearGradient>
+        </View>
+        <View style={styles.nameContainer}>
           <ThemedText style={styles.fullName} type="defaultSemiBold">{user.fullName}</ThemedText>
           <ThemedText style={styles.username} type="default">@{user.username}</ThemedText>
-          </View>
         </View>
+      </View>
+      <SettingsComponent />
+      <View style={styles.logout}>
+        <Ionicons name="log-out" size={24} color="red" />
+        <ThemedText style={styles.logoutText} type="defaultSemiBold">Log out</ThemedText>
+      </View>
+      <ThemedText style={styles.version}>Version 1.0.0</ThemedText>
     </View>
   )
 }
@@ -49,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,  
+    padding: 15,
     backgroundColor: '#363636',
     borderRadius: 10,
     marginTop: 20,
@@ -70,8 +83,13 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 14,
     marginBottom: 5,
-    color: '#666',
+    color: '#E8E8E8',
     fontWeight: 'bold',
+  },
+  nameContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    marginRight: 30,
   },
   fullName: {
     fontSize: 24,
@@ -80,9 +98,24 @@ const styles = StyleSheet.create({
     borderRadius: 63, // Adjust for the image size + border width
     padding: 3, // Optional: adds padding around the image to show the gradient border
   },
-  nameContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginRight: 30,
+  logout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom:0,
+    backgroundColor: '#363636',
+    width: '70%',
+    borderRadius: 10,
+    padding: 15,
+    justifyContent: 'center',
+  },
+  logoutText: {
+    fontSize: 16,
+    color: 'red',
+  },
+  version: {
+    color: '#E8E8E8',
+    marginBottom: 60,
+    fontSize: 12,
   },
 })

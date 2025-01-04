@@ -33,7 +33,7 @@ const workouts = [
       {
         id: 2,
         title: 'Run',
-        date:'2025-01-04',
+        date:'2025-01-02',
         // end_date:'',
         description: {
             title: 'Long Run',

@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const {height, width } = Dimensions.get('screen');
 
@@ -72,12 +73,17 @@ export default function ViewAllTasks() {
           />
         </View>
         <View style={styles.footer}>
-        <TouchableOpacity style={styles.plus_box}>
-          <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-            <AntDesign name="pluscircleo" size={55} color="white" />
-          </Link>
-        </TouchableOpacity>
-      </View>
+          <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}>
+          <TouchableOpacity>
+            <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+              <View style={styles.text_box}>
+              <AntDesign name="plus" size={24} color="white" />
+              <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Task</ThemedText>
+              </View>
+            </Link>
+          </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
      
     </SafeAreaView>
@@ -110,12 +116,25 @@ const styles = StyleSheet.create({
   // CREATE BUTTON 
   footer: {
     flexDirection: 'row',
-    alignSelf: 'flex-end',
-    position:'absolute',
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: height * 0.75
   },
   plus_box: {
     backgroundColor: 'transparent',
-    marginRight:50,
-    marginTop: height*0.73
+    marginRight: 20,
+    marginTop: height * 0.73
   },
+  gradientBorder: {
+    borderRadius: 10,
+    width: 200,   // Explicit width
+    height: 45,  // Explicit height
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text_box: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  }
 });
