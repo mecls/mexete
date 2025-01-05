@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity, Dimensions, FlatList, Alert } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import * as Haptics from 'expo-haptics';
 import Checkbox from 'expo-checkbox';
@@ -6,24 +6,24 @@ import { useMemo, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 const { width } = Dimensions.get('window');
 
-const getPriorityColor = (level: string | undefined) => {
+const getPriorityColor = (level: number | undefined) => {
   switch (level) {
-    case '1':
+    case 1:
       return '#FF3131'; // High priority - Red
-    case '2':
+    case 2:
       return '#FF9F31'; // Medium priority - Orange
-    case '3':
+    case 3:
       return '#31FF5E'; // Low priority - Green
     default:
       return '#636363'; // Default color - Grey
   }
 };
-
-const TaskItem = ({ task}: { task: any}) => {
-
+const TaskItem = ({task}: { task: any}) => {
+  
   const [subtaskChecks, setSubtaskChecks] = useState(
     task.subtasks?.map(() => false) || []
   );
+  
 
   const updatePercentage = () => {
     const totalSubtasks = subtaskChecks.length;
@@ -47,12 +47,12 @@ const TaskItem = ({ task}: { task: any}) => {
     <View
       style={[
         styles.fl_subContainer,
-        { borderTopColor: getPriorityColor(task.priority_lvl) },
+        { borderTopColor: getPriorityColor(task.priority_level) },
       ]}
     >
       <View style={styles.fl_subContainerTop}>
         <ThemedText type="subtitle" >{task.title}</ThemedText>
-        {task.subtasks && <ThemedText type="title" style={styles.percentageText}>{completedPercentage}</ThemedText>}
+        { task.subtasks && <ThemedText type="title" style={styles.percentageText}>{completedPercentage}</ThemedText>}
       </View>
       <View style={styles.fl_subContainerBody}>
         {task.subtasks?.map((subtask: any, index: number) => (
@@ -78,15 +78,14 @@ const TaskItem = ({ task}: { task: any}) => {
 };
 
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
-  
   return (
-        <FlatList
-          data={tasks}
-          renderItem={({ item }) => <TaskItem task={item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
+    <FlatList
+      data={tasks}
+      renderItem={({ item }) => <TaskItem task={item} />}
+      keyExtractor={(item) => item.id.toString()}
+    />
   );
-};
+}
 
 const styles = StyleSheet.create({
     mainContainer: {

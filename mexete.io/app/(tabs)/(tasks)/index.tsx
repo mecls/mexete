@@ -1,17 +1,38 @@
-import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import ViewAllComponent from '@/components/ViewAllTasks';
-import tasks from '@/assets/data/tasks';
 import CalendarComponent from '@/components/CalendarComponent';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
+import { supabase } from '@/lib/supabase';
 
-const {height, width } = Dimensions.get('screen');
+const { height, width } = Dimensions.get('screen');
 
 export default function ViewAllTasks() {
+
+  const [taskData, setTaskData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      let { data, error } = await supabase.from('tasks').select('*').eq('user_id', user.id)
+      if (error) {
+        Alert.alert('Error fetching tasks');
+        return;
+      }
+      if (data) {
+        setTaskData(data);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
 
   const [currentMonthYear, setCurrentMonthYear] = useState({
@@ -42,6 +63,16 @@ export default function ViewAllTasks() {
     });
   };
 
+
+  const getFilteredTasks = () => {
+    return taskData.filter(task => {
+      // Assuming your task data has a 'date' field
+      // Convert both dates to YYYY-MM-DD format for comparison
+      const taskDate = new Date(task.date).toISOString().split('T')[0];
+      return taskDate === selectedDate;
+    });
+  };
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View>
@@ -63,29 +94,22 @@ export default function ViewAllTasks() {
 
         {/* Task List */}
         <View style={styles.flatList_con}>
-          <ViewAllComponent
-            tasks={tasks.filter(task => {
-              const taskDate = task.date
-                ? new Date(task.date).toISOString().split('T')[0]
-                : ''; // Fallback if task.date is undefined
-              return taskDate === selectedDate;
-            })}
-          />
+          <ViewAllComponent tasks={getFilteredTasks()} /> {/* Pass tasks data */}
         </View>
         <View style={styles.footer}>
           <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}>
-          <TouchableOpacity>
-            <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-              <View style={styles.text_box}>
-              <AntDesign name="plus" size={24} color="white" />
-              <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Task</ThemedText>
-              </View>
-            </Link>
-          </TouchableOpacity>
+            <TouchableOpacity>
+              <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                <View style={styles.text_box}>
+                  <AntDesign name="plus" size={24} color="white" />
+                  <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Task</ThemedText>
+                </View>
+              </Link>
+            </TouchableOpacity>
           </LinearGradient>
         </View>
       </View>
-     
+
     </SafeAreaView>
   );
 }

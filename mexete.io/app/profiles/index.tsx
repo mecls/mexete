@@ -6,6 +6,7 @@ import profile from '@/assets/data/profile';
 import StreakComponent from '@/components/StreakComponent';
 import GoalsStatsComponent from '@/components/GoalsStatsComponent';
 import DailyStreakCalComponent from '@/components/DailyStreakCalComponent';
+import { supabase } from '@/lib/supabase';
 
 const { width } = Dimensions.get('screen');
 // Add this import at the top

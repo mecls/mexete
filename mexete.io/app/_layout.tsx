@@ -37,6 +37,7 @@ export default function RootLayout() {
     <PaperProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
+         {/* <Stack.Screen name='(auth)' options={{ headerShown: false, title: 'Account' }} /> */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Main' }} />
           <Stack.Screen name="profiles" options={{
             title: 'Profile', headerShown: true, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold' }, headerTransparent: true,

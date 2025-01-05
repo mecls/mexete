@@ -1,86 +1,98 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CalendarProvider, CalendarUtils, WeekCalendar } from 'react-native-calendars';
-import tasks from '@/assets/data/tasks';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { MarkedDatesType, PriorityLevel } from '@/assets/types';
 import { LinearGradient } from 'expo-linear-gradient';
+import { supabase } from '@/lib/supabase';
+
+const getPriorityColor = (level: number | undefined) => {
+    switch (level) {
+        case 1:
+            return '#FF3131'; // High priority - Red
+        case 2:
+            return '#FF9F31'; // Medium priority - Orange
+        case 3:
+            return '#31FF5E'; // Low priority - Green
+        default:
+            return '#636363'; // Default color - Grey
+    }
+};
 
 const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) => {
-    const [selected, setSelected] = useState(new Date());
-    
+    const [selected, setSelected] = useState(selectedDate);
+    const [tasks, setTasks] = useState<any[]>([]);
 
-//   // Helper function to get dot color based on priority
-//   const getColorByPriority = (priority: string | undefined) => {
-//     switch (priority) {
-//       case '1':
-//         return 'red';
-//       case '2':
-//         return 'yellow';
-//       case '3':
-//         return 'green';
-//       default:
-//         return 'gray'; // Default color for unknown priority
-//     }
-//   };
-//   const marked = useMemo(() => {
-//     const markedDates: MarkedDatesType = {};
-  
-//     tasks.forEach((task) => {
-//       if (task.date) {
-//         const taskDate = new Date(task.date).toISOString().split('T')[0];
-//         if (!markedDates[taskDate]) {
-//           markedDates[taskDate] = {
-//             dots: [
-//             ],
-//           };
-//         }
-//         markedDates[taskDate].dots.push({
-//           color: getColorByPriority(task.priority_lvl),
-//         });
-//       }
-//     });
-  
-//     const selectedDate = selected.toISOString().split('T')[0];
-//     markedDates[selectedDate] = {
-//     marked: true,
-//       selectedColor: 'orange',
-//       selectedTextColor: 'red',
-//       dots: [],
-//     };
-  
-//     return markedDates;
-//   }, [selected,tasks]);
-  
+    // Updated useEffect to fetch tasks
+    useEffect(() => {
+        const fetchTasks = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
 
-    const getItemCount=() => {
-        return tasks.filter(task => {
-            const taskDate = task.date ? new Date(task.date) : null;
-            return taskDate && taskDate.toISOString().split('T')[0] === selectedDate.toString().split('T')[0];
-        }).length;
-    }
+            const { data, error } = await supabase
+                .from('tasks')
+                .select('*')
+                .eq('user_id', user.id)
+
+            if (error) {
+                Alert.alert('Error fetching tasks');
+                return;
+            }
+            if (data) {
+                setTasks(data);
+            }
+        };
+
+        fetchTasks();
+    }, []);
+
+    const handleDateSelection = (date: string) => {
+        const newSelectedDate = new Date(date);
+        setSelected(newSelectedDate);
+        onDateChange(date);
+
+        const tasksForDate = tasks.filter((task: { date: string }) => {
+            const taskDate = new Date(task.date).toISOString().split('T')[0];
+            return taskDate === date;
+        });
+
+        //console.log('Tasks for selected date:', tasksForDate);
+    };
 
     const marked = useMemo(() => {
-        return {
-            [getItemCount().valueOf()]: {
-                marked: true,
-                dotColor: 'red',
-            },
-            [selected.toISOString().split('T')[0]]: { // Convert selected to ISO string and extract date part
-                selected: true,
-                selectedColor: 'transparent',
-                selectedTextColor: 'red',
-            },
-        };
-    }, [selected]);
+        const markedDates: MarkedDatesType = {};
+
+        // Mark dates that have tasks
+        tasks.forEach((task: { date: string | number | Date; priority_level: number; }) => {
+            if (task.date) {
+                const taskDate = new Date(task.date).toISOString().split('T')[0];
+                if (!markedDates[taskDate]) {
+                    markedDates[taskDate] = {
+                        dots: [],
+                        marked: true,
+                        dotColor: getPriorityColor(task.priority_level),
+                    };
+                }
+            }
+        });
+        // Mark selected date - Add null check and ensure it's a Date object
+        if (selected) {
+            const selectedDate = new Date(selected);
+            const selectedDateString = selectedDate.toISOString().split('T')[0];
+            markedDates[selectedDateString] = {
+                ...markedDates[selectedDateString],
+            };
+        }
+        return markedDates;
+    }, [selected, tasks]);
+    // New useMemo for selected date
     
     return (
         <View style={styles.container}>
-            <CalendarProvider date={selectedDate} onDateChanged={onDateChange} style={{ marginBottom: 10 }} >
+            <CalendarProvider date={selectedDate} onDateChanged={handleDateSelection} style={{ marginBottom: 10 }}>
                 <WeekCalendar
-
-                    testID={`task_${tasks[0]?.id}`} // Assign testID dynamically based on task ID
+                    testID={tasks[0]?.id ? `task_${tasks[0].id}` : 'calendar'}
                     onDayPress={(day) => {
-                        onDateChange(day.dateString); // Notify parent when a date is clicked
+                        handleDateSelection(day.dateString);
                     }}
                     firstDay={1}
                     onMonthChange={(monthInfo) => {
@@ -89,7 +101,6 @@ const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) =
                             onMonthChange(monthInfo);
                         }
                     }}
-                    // markedDates={marked}
                     theme={{
                         todayTextColor: 'red', // Change to match your design
                         backgroundColor: '#010101',

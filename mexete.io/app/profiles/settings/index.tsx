@@ -5,11 +5,6 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Avatar } from 'react-native-paper'
 import profile from '@/assets/data/profile'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Fontisto from '@expo/vector-icons/Fontisto';
-import Entypo from '@expo/vector-icons/Entypo';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import SettingsComponent from '@/components/SettingsComponent'
 
 const { width } = Dimensions.get('screen');
