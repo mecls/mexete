@@ -18,12 +18,11 @@ const getPriorityColor = (level: number | undefined) => {
       return '#636363'; // Default color - Grey
   }
 };
-const TaskItem = ({task}: { task: any}) => {
+const TaskItem = ({ task }: { task: any }) => {
   
   const [subtaskChecks, setSubtaskChecks] = useState(
     task.subtasks?.map(() => false) || []
   );
-  
 
   const updatePercentage = () => {
     const totalSubtasks = subtaskChecks.length;
@@ -33,46 +32,50 @@ const TaskItem = ({task}: { task: any}) => {
       : '0%';
   };
 
-  const completedPercentage = useMemo(()=>updatePercentage(), [updatePercentage()]);
+  const completedPercentage = useMemo(() => updatePercentage(), [subtaskChecks]);
 
   const toggleSubtask = (index: number) => {
     const updatedChecks = [...subtaskChecks];
     updatedChecks[index] = !updatedChecks[index];
     setSubtaskChecks(updatedChecks);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   return (
-     <SafeAreaView style={styles.mainContainer}>
-    <View
-      style={[
-        styles.fl_subContainer,
-        { borderTopColor: getPriorityColor(task.priority_level) },
-      ]}
-    >
-      <View style={styles.fl_subContainerTop}>
-        <ThemedText type="subtitle" >{task.title}</ThemedText>
-        { task.subtasks && <ThemedText type="title" style={styles.percentageText}>{completedPercentage}</ThemedText>}
+    <SafeAreaView style={styles.mainContainer}>
+      <View
+        style={[
+          styles.fl_subContainer,
+          { borderTopColor: getPriorityColor(task.priority_level) },
+        ]}
+      >
+        <View style={styles.fl_subContainerTop}>
+          <ThemedText type="subtitle">{task.title || ''}</ThemedText>
+          {task.subtasks && (
+            <ThemedText type="title" style={styles.percentageText}>
+              {completedPercentage}
+            </ThemedText>
+          )}
+        </View>
+        <View style={styles.fl_subContainerBody}>
+          {task.subtasks?.map((subtask: any, index: number) => (
+            <View key={subtask.subtask_id || index} style={{ flexDirection: 'row', gap: 5 }}>
+              <ThemedText type="defaultSemiBold">{subtask.subtask_title || ''}</ThemedText>
+              <Checkbox
+                style={styles.checkbox}
+                value={subtaskChecks[index]}
+                onValueChange={() => toggleSubtask(index)}
+              />
+              <ThemedText type="defaultSemiBold">{subtask.subtask_time2finish || ''}</ThemedText>
+            </View>
+          ))}
+        </View>
+        <View style={styles.infoContainer}>
+          <TouchableOpacity onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+            <FontAwesome5 name="info-circle" size={24} color="#636363" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.fl_subContainerBody}>
-        {task.subtasks?.map((subtask: any, index: number) => (
-          <View key={subtask.subtask_id} style={{ flexDirection: 'row', gap: 5 }}>
-           <ThemedText type="defaultSemiBold">{`${subtask.subtask_title}`}</ThemedText>
-            <Checkbox
-              style={styles.checkbox}
-              value={subtaskChecks[index]}
-              onValueChange={() => toggleSubtask(index)}
-            />
-           <ThemedText type="defaultSemiBold">{`${subtask.subtask_time2finish}`}</ThemedText>
-          </View>
-        ))}
-      </View>
-      <View style={styles.infoContainer}>
-        <TouchableOpacity onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-          <FontAwesome5 name="info-circle" size={24} color="#636363" />
-        </TouchableOpacity>
-      </View>
-    </View>
     </SafeAreaView>
   );
 };
@@ -80,30 +83,25 @@ const TaskItem = ({task}: { task: any}) => {
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
 
  // Ordenação de tasks
-const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
-  // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
-  const priorityA = parseInt(a.priority_level) || Infinity;
-  const priorityB = parseInt(b.priority_level) || Infinity;
+ const sortedTasks = useMemo(() => {
+  return tasks.sort((a, b) => {
+    const priorityA = parseInt(a.priority_level) || Infinity;
+    const priorityB = parseInt(b.priority_level) || Infinity;
 
-  // Primeiro, ordena por prioridade (ordem crescente)
-  const priorityComparison = priorityA - priorityB;
-
-  // Se as prioridades forem iguais, ordena por ID (ordem crescente)
-  if (priorityComparison === 0) {
-    return a.id - b.id;
-  }
-
-  return priorityComparison;
-
-
-}),[tasks]);
+    const priorityComparison = priorityA - priorityB;
+    if (priorityComparison === 0) {
+      return a.id - b.id;
+    }
+    return priorityComparison;
+  });
+}, [tasks]);
 
   return (
     <FlatList
-      data={sortedTasks}
-      renderItem={({ item }) => <TaskItem task={item} />}
-      keyExtractor={(item) => item.id.toString()}
-    />
+    data={sortedTasks}
+    renderItem={({ item }) => <TaskItem task={item} />}
+    keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
+  />
   );
 }
 
