@@ -4,6 +4,7 @@ import { Button } from '@rneui/themed';
 import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import { Colors } from '@/src/constants/Colors';
+
 export default function SignUpScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,7 +46,7 @@ export default function SignUpScreen() {
       />
      <View style={styles.linkContainer}>
      <TouchableOpacity>
-        <Link href="/(auth)/signIn" asChild>
+        <Link href="/auth" asChild>
             <Text style={styles.textButton}>
               Sign in
             </Text>

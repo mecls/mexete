@@ -5,7 +5,7 @@ import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import { Colors } from '@/src/constants/Colors';
 
-const SignInScreen = () => {
+export default function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,14 +47,14 @@ const SignInScreen = () => {
         disabled={loading}
         title={loading ? 'Signing in...' : 'Sign in'}
       />
-      <Link href="/(auth)/signUp" asChild>
+      <Link href="/auth/signUp" asChild>
         <Text style={styles.textButton}>
           Create an account
         </Text>
       </Link>
     </View>
   );
-};
+  };
 
 const styles = StyleSheet.create({
   container: {
@@ -82,4 +82,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;

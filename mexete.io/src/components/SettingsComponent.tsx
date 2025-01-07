@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         alignSelf: 'center',
+        marginTop: -20,
+
       },
       settingsBox: {
         width: '95%',
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#363636', // or your desired background color
         borderRadius: 8,
         padding: 10,
+        
       },
       settingsItem: {
         flexDirection: 'row',

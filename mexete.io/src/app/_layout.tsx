@@ -51,7 +51,7 @@
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthProvider>
           <Stack>
-            <Stack.Screen name="(auth)" options={{ headerShown: false , title: 'Sign In'}}/>
+            <Stack.Screen name="auth" options={{ headerShown: false }}/>
             <Stack.Screen name="(tabs)" options={{ headerShown: false, title: 'Main' }} />
             <Stack.Screen
               name="profiles"
@@ -74,8 +74,8 @@
               }}
             />
             <Stack.Screen name="+not-found" />
-            <StatusBar style="auto" />
           </Stack>
+          <StatusBar style="auto" />
         </AuthProvider>
       </ThemeProvider>
     );

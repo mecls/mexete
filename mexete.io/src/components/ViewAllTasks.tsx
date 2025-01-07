@@ -57,13 +57,13 @@ const TaskItem = ({task}: { task: any}) => {
       <View style={styles.fl_subContainerBody}>
         {task.subtasks?.map((subtask: any, index: number) => (
           <View key={subtask.subtask_id} style={{ flexDirection: 'row', gap: 5 }}>
-            <ThemedText type="defaultSemiBold">{subtask.subtask_title}</ThemedText>
+           <ThemedText type="defaultSemiBold">{`${subtask.subtask_title}`}</ThemedText>
             <Checkbox
               style={styles.checkbox}
               value={subtaskChecks[index]}
               onValueChange={() => toggleSubtask(index)}
             />
-            <ThemedText type="defaultSemiBold">{subtask.subtask_time2finish}</ThemedText>
+           <ThemedText type="defaultSemiBold">{`${subtask.subtask_time2finish}`}</ThemedText>
           </View>
         ))}
       </View>
@@ -78,9 +78,29 @@ const TaskItem = ({task}: { task: any}) => {
 };
 
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
+
+ // Ordenação de tasks
+const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
+  // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
+  const priorityA = parseInt(a.priority_level) || Infinity;
+  const priorityB = parseInt(b.priority_level) || Infinity;
+
+  // Primeiro, ordena por prioridade (ordem crescente)
+  const priorityComparison = priorityA - priorityB;
+
+  // Se as prioridades forem iguais, ordena por ID (ordem crescente)
+  if (priorityComparison === 0) {
+    return a.id - b.id;
+  }
+
+  return priorityComparison;
+
+
+}),[tasks]);
+
   return (
     <FlatList
-      data={tasks}
+      data={sortedTasks}
       renderItem={({ item }) => <TaskItem task={item} />}
       keyExtractor={(item) => item.id.toString()}
     />

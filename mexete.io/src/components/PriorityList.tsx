@@ -62,7 +62,6 @@ const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
     updatedChecks[index] = !updatedChecks[index];
     setMaintaskChecks(updatedChecks);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-    
   };
   
   const taskItemList = (task: { id: number; }, tasks: any) => {
@@ -118,8 +117,8 @@ export const PriorityList = ({ tasks }: { tasks: any[] }) => {
  // Ordenação de tasks
 const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
   // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
-  const priorityA = parseInt(a.priority_lvl) || Infinity;
-  const priorityB = parseInt(b.priority_lvl) || Infinity;
+  const priorityA = parseInt(a.priority_level) || Infinity;
+  const priorityB = parseInt(b.priority_level) || Infinity;
 
   // Primeiro, ordena por prioridade (ordem crescente)
   const priorityComparison = priorityA - priorityB;
@@ -139,9 +138,12 @@ const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
 
   return (
     <View style={styles.listContainer}>
-      {sortedTasks.map((item) => (
+      <FlatList
+      data={sortedTasks}
+      renderItem={({ item }) => (
         <PriorityItem key={item.id} task={item} date={new Date()} />
-      ))}
+      )}
+      />
      </View>
   );
 };
@@ -157,10 +159,10 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    margin: 5,
+    marginLeft: 5,
   },
   fl_subContainerBody: {
-    marginVertical:10,
+    marginVertical:8,
 
   },
   taskContainer: {
@@ -168,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Align items vertically
     justifyContent: 'space-between',
     width: width * 0.4,
-    padding:0,
+    padding:1,
   },
   taskText: {
     flex: 1, // Allow text to take available space
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   checkbox: {
-    marginLeft: 8, // Add spacing between text and checkbox
+    marginLeft: 5, // Add spacing between text and checkbox
     borderRadius: 5,
     padding:10,
   },

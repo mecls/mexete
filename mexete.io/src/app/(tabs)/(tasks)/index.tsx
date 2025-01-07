@@ -74,13 +74,13 @@ export default function ViewAllTasks() {
   };
 
   return (
-    
+
     <SafeAreaView style={styles.mainContainer}>
       <View>
         {/* Month and Year Header */}
         <View style={styles.monthYearContainer}>
-          <ThemedText  type='title' >
-            {currentMonthYear.month|| ' '} {currentMonthYear.year|| ' '}
+          <ThemedText type='title'>
+            {currentMonthYear.month || ''} {currentMonthYear.year || ''}
           </ThemedText>
         </View>
 

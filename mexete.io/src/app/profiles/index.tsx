@@ -16,6 +16,12 @@ export default function ProfileScreen() {
   //const streak = user.streak;
 
   const {session} = useAuth()
+  if(!session){
+    return <Redirect href="/auth" />
+  }
+
+  const { profile } = useAuth();
+
  
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -34,8 +40,8 @@ export default function ProfileScreen() {
               />
             </LinearGradient>
           </View>
-          <ThemedText style={styles.fullName} type="title">{session?.user?.email}</ThemedText>
-          <ThemedText style={styles.username} type="defaultSemiBold">@{session?.user?.id}</ThemedText>
+          <ThemedText style={styles.fullName} type="title">{profile?.full_name}</ThemedText>
+          <ThemedText style={styles.username} type="defaultSemiBold">@{profile?.username}</ThemedText>
         </View>
         <View style={styles.streakContainer}>
           <GoalsStatsComponent />

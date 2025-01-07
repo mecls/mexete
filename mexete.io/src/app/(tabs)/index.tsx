@@ -16,7 +16,7 @@ const { width } = Dimensions.get('window');
 export default function HomeScreen() {
   const { session } = useAuth();
   if (!session) {
-    return <Redirect href="/(auth)/signIn" />
+    return <Redirect href="/auth" />
   }
   return (
     <SafeAreaView style={styles.mainContainer}>

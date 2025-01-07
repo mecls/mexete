@@ -69,7 +69,7 @@ const CalendarComponent = ({ selectedDate, onDateChange, onMonthChange }: any) =
                     markedDates[taskDate] = {
                         dots: [],
                         marked: true,
-                        dotColor: getPriorityColor(task.priority_level),
+                        //dotColor: getPriorityColor(task.priority_level),
                     };
                 }
             }

@@ -7,7 +7,7 @@ import { Session } from '@supabase/supabase-js'
 export default function AccountComponent({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
-  const [website, setWebsite] = useState('')
+  const [fullName, setFullName] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('')
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function AccountComponent({ session }: { session: Session }) {
 
       const { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url`)
+        .select(`full_name, username, avatar_url`)
         .eq('id', session?.user.id)
         .single()
       if (error && status !== 406) {
@@ -30,8 +30,8 @@ export default function AccountComponent({ session }: { session: Session }) {
 
       if (data) {
         setUsername(data.username)
-        setWebsite(data.website)
         setAvatarUrl(data.avatar_url)
+        setFullName(data.full_name)
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -43,9 +43,11 @@ export default function AccountComponent({ session }: { session: Session }) {
   }
 
   async function updateProfile({
+    full_name,
     username,
     avatar_url,
   }: {
+    full_name: string
     username: string
     avatar_url: string
   }) {
@@ -55,6 +57,7 @@ export default function AccountComponent({ session }: { session: Session }) {
 
       const updates = {
         id: session?.user.id,
+        full_name,
         username,
         avatar_url,
         updated_at: new Date(),
@@ -86,7 +89,7 @@ export default function AccountComponent({ session }: { session: Session }) {
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button
           title={loading ? 'Loading ...' : 'Update'}
-          onPress={() => updateProfile({ username, avatar_url: avatarUrl })}
+          onPress={() => updateProfile({ full_name: fullName, username, avatar_url: avatarUrl })}
           disabled={loading}
         />
       </View>
