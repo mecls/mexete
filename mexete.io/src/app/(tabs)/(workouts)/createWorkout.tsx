@@ -1,6 +1,5 @@
 import { StyleSheet, SafeAreaView, View, Platform } from 'react-native';
 import { ThemedText } from '../../../components/ThemedText';
-import { StatusBar } from 'expo-status-bar';
 
 
 export default function CreateWorkout() {

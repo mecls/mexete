@@ -13,10 +13,10 @@ const { width } = Dimensions.get('screen');
 
 const settings = () => {
   const { session } = useAuth();
+  const { profile } = useAuth();
   if (!session) {
-    return <Redirect href="/(auth)/signIn" />
+    return <Redirect href="/auth" />
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -34,8 +34,8 @@ const settings = () => {
           </LinearGradient>
         </View>
         <View style={styles.nameContainer}>
-          <ThemedText style={styles.fullName} type="defaultSemiBold">Miguel Carvalhal</ThemedText>
-          <ThemedText style={styles.username} type="default">@mecls</ThemedText>
+          <ThemedText style={styles.fullName} type="defaultSemiBold">{profile?.full_name || ''}</ThemedText>
+          <ThemedText style={styles.username} type="default">@{profile?.username || ''}</ThemedText>
         </View>
       </View>
       <SettingsComponent />
@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
   },
   fullName: {
     fontSize: 24,
+    color: 'white',
+    fontWeight: 'bold',
+
   },
   gradientBorder: {
     borderRadius: 63, // Adjust for the image size + border width

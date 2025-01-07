@@ -74,13 +74,13 @@ export default function ViewAllTasks() {
   };
 
   return (
-    
+
     <SafeAreaView style={styles.mainContainer}>
       <View>
         {/* Month and Year Header */}
         <View style={styles.monthYearContainer}>
-          <ThemedText  type='title' >
-            {currentMonthYear.month|| ' '} {currentMonthYear.year|| ' '}
+          <ThemedText type='title'>
+            {currentMonthYear.month || ''} {currentMonthYear.year || ''}
           </ThemedText>
         </View>
 
@@ -95,7 +95,11 @@ export default function ViewAllTasks() {
 
         {/* Task List */}
         <View style={styles.flatList_con}>
-          <ViewAllComponent tasks={getFilteredTasks()} /> {/* Pass tasks data */}
+          {getFilteredTasks().length > 0 ? (
+            <ViewAllComponent tasks={getFilteredTasks()} /> 
+          ) : (
+            <ThemedText style={{ marginTop: 50 , alignSelf: 'center'}} type="title">No tasks found for this date</ThemedText>
+          )}
         </View>
         <View style={styles.footer}>
           <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}>
