@@ -7,7 +7,7 @@ import * as Haptics from 'expo-haptics';
 
 const { width } = Dimensions.get('window');
 
-const WeekWorkoutTracker = () => {
+export default function WeekWorkoutTracker() {
 
   const titles = workouts.map((w) => w.title.toString());
 
@@ -59,25 +59,25 @@ const WeekWorkoutTracker = () => {
               {/* IF WORKOUT WAS CHECKED THEN BOX BECAMES COLOURED */}
               <View style={styles.weekBox}>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Mon</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12}}>Mon</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Tue</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold',   color:'#000', fontSize:12}}>Tue</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Wed</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12}}>Wed</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Thu</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12  }}>Thu</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold', color:'#000'}}>Fri</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12}}>Fri</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Sat</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12}}>Sat</ThemedText>
                 </View>
                 <View style={styles.box}>
-                  <ThemedText style={{fontWeight:'bold',color:'#000'}}>Sun</ThemedText>
+                  <ThemedText type='defaultSemiBold' style={{fontWeight:'bold', color:'#000', fontSize:12}}>Sun</ThemedText>
                 </View>
               </View>
               {/* TEXT */}
@@ -107,21 +107,19 @@ const WeekWorkoutTracker = () => {
     )
   }
 
-}
-
-export default WeekWorkoutTracker
+};
 
 const styles = StyleSheet.create({
   stats_container: {
     flexDirection: 'row',
     marginTop: 10,
-    marginLeft: 10
+    marginLeft: 15
   },
   subcontainer3: {
     flex: 1,
   },
   mBox: {
-    width: width * 0.95,
+    width: width * 0.94,
     height: 150,
     marginTop: 5,
     padding: 10,
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
   m_infoContainerStats: {
     alignSelf: 'flex-end',
     position: 'absolute',
-    marginTop: 110,
+    marginTop: 120,
     paddingRight: 5,
   },
   weekBox: {
@@ -144,16 +142,14 @@ const styles = StyleSheet.create({
     borderColor: '#363636',      // Border color (blue)
     borderWidth: 4,              // Thickness of the border
     borderRadius: 10,            // Rounded corners
-    padding: 3,                 // Space inside the container
+    padding: 10,                 // Space inside the container
     backgroundColor: 'transparent',     // Optional: Background color for the group
-    margin: 5,                  // Space outside the container
   },
   box: {
-    height: 35,
-    width: 35,
+    height: 32,
+    width: 32,
     backgroundColor: '#fff',
     borderRadius: 5,
-    margin: 5,
     alignItems: 'center', // Centers text horizontally
     justifyContent: 'center', // Centers text vertically
   }

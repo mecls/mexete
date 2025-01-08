@@ -15,15 +15,20 @@ const { width } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const { session } = useAuth();
+  const { profile } = useAuth();
+  const goal = profile?.main_goal;
   if (!session) {
     return <Redirect href="/auth" />
   }
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.container}>
-        <View style={styles.containerText}>
-          <ThemedText type="title" style={styles.boxOne}>Make 10k/month</ThemedText>
-          <ThemedText type="title" style={styles.boxTwo}>with app</ThemedText>
+      <View style={styles.containerText}>
+          <ThemedText type="title" style={styles.boxOne}>
+            {goal && goal.length >20 
+              ? goal.slice(0, Math.ceil(goal.length/2)) + '\n' + goal.slice(Math.ceil(goal.length/2))
+              : goal}
+          </ThemedText>
         </View>
         <View style={styles.userInfoSection}>
             <Link href={'/profiles'} asChild>
@@ -62,12 +67,12 @@ const styles = StyleSheet.create({
   },
   containerText: {
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start', // Changed from 'center' to 'flex-start'
     gap: 8,
   },
   boxOne: {
-    alignSelf: 'center',
-    fontSize:26,
+    alignSelf: 'flex-start', // Changed from 'center' to 'flex-start'
+    fontSize: 26,
   },
   boxTwo: {
     marginTop: -15,
