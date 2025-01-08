@@ -107,7 +107,7 @@ export default function ViewAllTasks() {
               <Link href={'/createTask'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
                 <View style={styles.text_box}>
                   <AntDesign name="plus" size={24} color="white" />
-                  <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Task</ThemedText>
+                  <ThemedText style={{ marginLeft: 5 }} type='subtitle'>Task</ThemedText>
                 </View>
               </Link>
             </TouchableOpacity>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: height * 0.75
+    marginTop: height * 0.76
   },
   plus_box: {
     backgroundColor: 'transparent',
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
   },
   gradientBorder: {
     borderRadius: 10,
-    width: 200,   // Explicit width
-    height: 45,  // Explicit height
+    width: 300,   // Explicit width
+    height: 40,  // Explicit height
     alignItems: 'center',
     justifyContent: 'center',
   },

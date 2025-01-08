@@ -69,14 +69,14 @@ export default function ViewAllWorkouts() {
         </View>
         <View style={styles.footer}>
           <LinearGradient colors={["#FF3131", "#FF9F31"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradientBorder}>
-          <TouchableOpacity>
-            <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-              <View style={styles.text_box}>
-              <AntDesign name="plus" size={24} color="white" />
-              <ThemedText style={{ marginLeft: 10 }} type='subtitle'>Create Workout</ThemedText>
-              </View>
-            </Link>
-          </TouchableOpacity>
+            <TouchableOpacity>
+              <Link href={'/createWorkout'} onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
+                  <View style={styles.text_box}>
+                    <AntDesign name="plus" size={24} color="white" />
+                    <ThemedText style={{ marginLeft: 5}} type='subtitle'>Workout</ThemedText>
+                  </View>
+              </Link>
+            </TouchableOpacity>
           </LinearGradient>
         </View>
       </View>
@@ -115,22 +115,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: height * 0.75
+    marginTop: height * 0.76
   },
   wBox2: {
     width: width * 0.4,
     marginLeft: 10,
     height: 255,
   },
-  plus_box: {
-    backgroundColor: 'transparent',
-    marginRight: 20,
-    marginTop: height * 0.73
-  },
   gradientBorder: {
     borderRadius: 10,
-    width: 200,   // Explicit width
-    height: 45,  // Explicit height
+    width: 300,   // Explicit width
+    height: 40,  // Explicit height
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -138,5 +133,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-  }
+  },
 });

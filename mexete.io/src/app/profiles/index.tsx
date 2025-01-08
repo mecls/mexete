@@ -15,6 +15,7 @@ export default function ProfileScreen() {
   //const user = profile[0];
   //const streak = user.streak;
 
+
   const {session} = useAuth()
   if(!session){
     return <Redirect href="/auth" />
