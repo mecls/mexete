@@ -8,13 +8,13 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { supabase } from '../../../../lib/supabase';
+import { useAuth } from '@/src/providers/AuthProvider';
 
 const { height, width } = Dimensions.get('screen');
 
 export default function ViewAllTasks() {
 
   const [taskData, setTaskData] = useState<any[]>([]);
-
   useEffect(() => {
     const fetchTasks = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -32,7 +32,7 @@ export default function ViewAllTasks() {
 
     fetchTasks();
   }, []);
-
+ 
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
 
   const [currentMonthYear, setCurrentMonthYear] = useState({
@@ -73,6 +73,7 @@ export default function ViewAllTasks() {
     });
   };
 
+
   return (
 
     <SafeAreaView style={styles.mainContainer}>
@@ -96,9 +97,9 @@ export default function ViewAllTasks() {
         {/* Task List */}
         <View style={styles.flatList_con}>
           {getFilteredTasks().length > 0 ? (
-            <ViewAllComponent tasks={getFilteredTasks()} /> 
+            <ViewAllComponent tasks={getFilteredTasks()} />
           ) : (
-            <ThemedText style={{ marginTop: 50 , alignSelf: 'center'}} type="title">No tasks found for this date</ThemedText>
+            <ThemedText style={{ marginTop: 50, alignSelf: 'center' }} type="title">No tasks found for this date</ThemedText>
           )}
         </View>
         <View style={styles.footer}>

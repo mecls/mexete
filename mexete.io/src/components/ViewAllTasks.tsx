@@ -2,8 +2,10 @@ import { StyleSheet, SafeAreaView, View, TouchableOpacity, Dimensions, FlatList,
 import { ThemedText } from '../components/ThemedText';
 import * as Haptics from 'expo-haptics';
 import Checkbox from 'expo-checkbox';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/src/providers/AuthProvider';
 const { width } = Dimensions.get('window');
 
 const getPriorityColor = (level: number | undefined) => {
@@ -19,18 +21,54 @@ const getPriorityColor = (level: number | undefined) => {
   }
 };
 const TaskItem = ({ task }: { task: any }) => {
-  
-  const [subtaskChecks, setSubtaskChecks] = useState(
-    task.subtasks?.map(() => false) || []
-  );
+  const [subtaskData, setSubtaskData] = useState<any[]>([]);
+  const [subtaskChecks, setSubtaskChecks] = useState<boolean[]>([]);
+
+
+
+  //THIS SHOULDN'T RE-RENDER EVERY TIME THE TASK IS RENDERED
+  //I'M USING USEMEMO TO AVOID RE-RENDERING
+  //BUT IT'S NOT WORKING
+  //I'M USING USEEFFECT TO FETCH THE SUBTASKS
+  //BUT IT'S RE-RENDERING EVERY TIME THE TASK IS RENDERED
+  useEffect(() => {
+    const fetchSubtasks = async () => {
+      try {
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+        if (userError || !user) {
+          Alert.alert('Authentication error', 'User not authenticated.');
+          return;
+        }
+
+        const { data: subtasks, error } = await supabase
+          .from('subtasks')
+          .select('*')
+
+        if (error) {
+          console.error('Error fetching subtasks:', error);
+          Alert.alert('Error fetching subtasks');
+        } else {
+          setSubtaskData(subtasks || []);
+          setSubtaskChecks(subtasks.map(() => false)); // Initialize check states
+        }
+      } catch (err) {
+        console.error('Unexpected error:', err);
+      }
+    };
+
+    fetchSubtasks();
+  }, []);
 
   const updatePercentage = () => {
     const totalSubtasks = subtaskChecks.length;
-    const completedSubtasks = subtaskChecks.filter((checked: any) => checked).length;
+    const completedSubtasks = subtaskChecks.filter((checked) => checked).length;
     return totalSubtasks > 0
       ? `${Math.round((completedSubtasks / totalSubtasks) * 100)}%`
       : '0%';
   };
+
+  const memoizedSubtasks = useMemo(() => subtaskData, [subtaskData]);
 
   const completedPercentage = useMemo(() => updatePercentage(), [subtaskChecks]);
 
@@ -51,34 +89,30 @@ const TaskItem = ({ task }: { task: any }) => {
       >
         <View style={styles.fl_subContainerTop}>
           <ThemedText type="subtitle">{task.title || ''}</ThemedText>
-          {task.subtasks && (
+          {subtaskData.length > 0 && (
             <ThemedText type="title" style={styles.percentageText}>
               {completedPercentage}
             </ThemedText>
           )}
         </View>
         <View style={styles.fl_subContainerBody}>
-          {task.subtasks?.map((subtask: any, index: number) => (
-            <View key={subtask.subtask_id || index} style={{ flexDirection: 'row', gap: 5 }}>
-              <ThemedText type="defaultSemiBold">{subtask.subtask_title || ''}</ThemedText>
+          {memoizedSubtasks.map((subtask: any, index: number) => (
+            <View key={subtask.id} style={{ flexDirection: 'row', gap: 5 }}>
+              <ThemedText type="defaultSemiBold">{subtask.title || ''}</ThemedText>
               <Checkbox
                 style={styles.checkbox}
                 value={subtaskChecks[index]}
                 onValueChange={() => toggleSubtask(index)}
               />
-              <ThemedText type="defaultSemiBold">{subtask.subtask_time2finish || ''}</ThemedText>
+              <ThemedText type="defaultSemiBold">({subtask.timeToFinish || ''}min)</ThemedText>
             </View>
           ))}
-        </View>
-        <View style={styles.infoContainer}>
-          <TouchableOpacity onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-            <FontAwesome5 name="info-circle" size={24} color="#636363" />
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
 };
+
 
 export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
 
@@ -99,7 +133,7 @@ export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
   return (
     <FlatList
     data={sortedTasks}
-    renderItem={({ item }) => <TaskItem task={item} />}
+    renderItem={({ item }) => <TaskItem task={item}  />}
     keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
   />
   );
