@@ -5,7 +5,7 @@ import { Avatar } from 'react-native-paper';
 import { FontAwesome5 } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { supabase } from '@/lib/supabase';
-import useStreak from '../hooks/getStreak';
+import useStreak from '../hooks/useStreak';
 
 const { width } = Dimensions.get('screen');
 

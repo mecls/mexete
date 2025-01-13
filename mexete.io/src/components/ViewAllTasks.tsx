@@ -8,12 +8,14 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/src/providers/AuthProvider';
 import usePriorityColor from '../hooks/usePriorityColor';
 import priorityColor from '../hooks/usePriorityColor';
-import useStreak from '../hooks/getStreak';
+import useStreak from '../hooks/useStreak';
 const { width } = Dimensions.get('window');
 
 
 
 const TaskItem = ({ task, subtasks, onSubtasksUpdate }: { task: any, subtasks: any[], onSubtasksUpdate: (updatedSubtasks: any[]) => void }) => {
+
+  
   const [allSubtasks, setAllSubtasks] = useState<any[]>([]);
 
   useEffect(() => {
@@ -29,6 +31,35 @@ const TaskItem = ({ task, subtasks, onSubtasksUpdate }: { task: any, subtasks: a
   };
 
   const completedPercentage = useMemo(() => updatePercentage(), [allSubtasks]);
+
+  const checkAndUpdateTaskCompletion = async (taskId: string) => {
+    // Get all subtasks for this task
+    const { data: subtasks, error: subtasksError } = await supabase
+      .from('subtasks')
+      .select('is_finished')
+      .eq('task_id', taskId);
+  
+    if (subtasksError) {
+      Alert.alert('Error checking subtasks');
+      return;
+    }
+  
+    // If there are no subtasks, return
+    if (!subtasks || subtasks.length === 0) return;
+  
+    // Check if all subtasks are finished
+    const allSubtasksFinished = subtasks.every(subtask => subtask.is_finished);
+  
+    // Update task status based on subtasks completion
+    const { error: updateError } = await supabase
+      .from('tasks')
+      .update({ is_finished: allSubtasksFinished })
+      .eq('id', taskId);
+  
+    if (updateError) {
+      Alert.alert('Error updating task status');
+    }
+  };
 
   const toggleSubtask = async (index: number) => {
     try {
@@ -65,11 +96,12 @@ const TaskItem = ({ task, subtasks, onSubtasksUpdate }: { task: any, subtasks: a
       }
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      checkAndUpdateTaskCompletion(task.id);
     } catch (err) {
       console.error('Unexpected error:', err);
       Alert.alert('Unexpected error', 'Please try again later.');
     }
-  };
+  };  
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -151,16 +183,19 @@ export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
     return taskSubtasks.every(st => st.is_finished === true);
   };
 
+  
+
   const handleSubtasksUpdate = async (updatedSubtasks: any[], taskId: string) => {
     setSubtasks((prevSubtasks) =>
       prevSubtasks.map((subtask) =>
         updatedSubtasks.find((updated) => updated.id === subtask.id) || subtask
       )
     );
-
+  
     // Check if this update completed the task
     if (checkTaskCompletion(taskId, updatedSubtasks)) {
-      await updateStreak();
+      const task = tasks.find(t => t.id === taskId);
+      await updateStreak(task?.date);
     }
   };
 
@@ -177,6 +212,7 @@ export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
     });
   }, [tasks]);
 
+
   const subtasksByTask = useMemo(() => {
     return subtasks.reduce((acc: { [key: string]: any[] }, subtask) => {
       const taskId = subtask.task_id;
@@ -187,6 +223,7 @@ export const ViewAllComponent = ({ tasks }: { tasks: any[] }) => {
       return acc;
     }, {});
   }, [subtasks]);
+
 
    return (
     <FlatList

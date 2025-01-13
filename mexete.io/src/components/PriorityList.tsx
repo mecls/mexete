@@ -1,12 +1,14 @@
-import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Dimensions, TouchableOpacity, FlatList, AppState } from 'react-native';
 import { ThemedText } from '../components/ThemedText';
 import Checkbox from 'expo-checkbox';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import tasks from '../assets/data/tasks';
+import useStreak from '../hooks/useStreak';
+import { supabase } from '@/lib/supabase';
+import { reload } from 'expo-router/build/global-state/routing';
 
 const { width } = Dimensions.get('window');
 
@@ -25,87 +27,115 @@ const getPriorityColor = (level: number | undefined) => {
 };
 
 // Component for individual priority item
-const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
+const PriorityItem = ({ task, date }: { task: any, date: Date }) => {
   // console.log("Data of date is: " + task.id);
+  const { updateStreak } = useStreak();
 
-  if (!date) {
-    console.warn("Date is undefined!");
-    return null; // Render nothing if the date is missing
-  }
+  // Convert `task.date` to Date for comparison
   const taskDate = new Date(task.date);
-  // console.log("Data of date is: " + task.date);
-
-  // Compare only the day, month, and year to ensure a match
-  const isToday =
-    taskDate.getDate() === date.getDate() &&
-    taskDate.getMonth() === date.getMonth() &&
-    taskDate.getFullYear() === date.getFullYear();
+  const today = new Date().toISOString().split('T')[0];
+  const isToday = taskDate.toISOString().split('T')[0] === today;
 
   if (!isToday) {
-    return null; // If the task is not for today, render nothing
+    return null; // Render nothing if the task is not for today
   }
 
-  const [maintaskChecks, setMaintaskChecks] = useState(
-    tasks?.map(() => false) || []
-  );
+  const [isChecked, setIsChecked] = useState(task.is_finished);
 
-  const updatePercentage = () => {
-    const totalTasks = maintaskChecks.length;
-    const completedTasks = maintaskChecks.filter(Boolean).length;
-    return totalTasks > 0 ? `${Math.round((completedTasks / totalTasks) * 100)}%` : '0%';
-  };
+  // Break title into two parts if it exceeds 10 characters
+  const formattedTitle =
+    task.title.length > 50
+      ? [task.title.slice(0, Math.ceil(task.title.length / 2)), task.title.slice(Math.ceil(task.title.length / 2))]
+      : [task.title];
 
-  const completedPercentage = useMemo(() => updatePercentage(), [maintaskChecks]);
 
-  const toggleSubtask = (index: number) => {
-    const updatedChecks = [...maintaskChecks];
-    updatedChecks[index] = !updatedChecks[index];
-    setMaintaskChecks(updatedChecks);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  // Toggle task completion
+  // const toggleSubtask = async (index: number) => {
+  //   try {
+  //     const { error } = await supabase
+  //       .from('tasks')
+  //       .update({ is_finished: !isChecked,
+  //         subtasks: {
+  //           is_finished: !isChecked
+  //         }
+  //        })
+  //       .eq('id', task.id);
+
+  //     if (error) {
+  //       console.error('Error updating task:', error);
+  //       return;
+  //     }
+
+  //     setIsChecked(!isChecked);
+  //     updateStreak(task.date); // Update the streak if conditions are met
+  //     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  //   } catch (err) {
+  //     console.error('Error toggling task completion:', err);
+  //   }
+  // };
+
+  const toggleTaskCompletion = async (index: number) => {
+    try {
+      // Toggle the main task's `is_finished` status
+      const newStatus = !isChecked;
+  
+      // Update the main task's `is_finished` status
+      const { error: taskError } = await supabase
+        .from('tasks')
+        .update({ is_finished: newStatus })
+        .eq('id', task.id);
+  
+      if (taskError) {
+        console.error('Error updating main task:', taskError);
+        return;
+      }
+  
+      // Update all related subtasks' `is_finished` status
+      const { error: subtaskError } = await supabase
+        .from('subtasks')
+        .update({ is_finished: newStatus })
+        .eq('task_id', task.id); // Assuming `task_id` links subtasks to the main task
+  
+      if (subtaskError) {
+        console.error('Error updating subtasks:', subtaskError);
+        return;
+      }
+  
+      // Update the local state
+      setIsChecked(newStatus); // Update the main task's checkbox state
+      updateStreak(task.date); // Update streak
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); // Haptic feedback
+      console.log('Task and related subtasks updated successfully');
+    } catch (err) {
+      console.error('Unexpected error toggling task completion:', err);
+    }
   };
   
-  const taskItemList = (task: { id: number; }, tasks: any) => {
-    // console.log("Task id: " + task.id);
-    for (let t of tasks) { // Itera diretamente pelos objetos da lista
-      if (t.id === task.id) { // Compara o id do objeto com o task.id
-        return t; // Retorna o objeto correspondente
-      }
-    }
-    return null; // Caso não encontre nenhum objeto correspondente
-  };
   
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={[styles.container]}>
-        {taskItemList.length>0 ? ( //ID MUST BE UNIQUE AND ITS NOT IT
-          <View key={task.id} style={styles.fl_subContainerBody}>
-              <View key={task.id} style={styles.taskContainer}>
-                <MaterialIcons
-                  name="circle"
-                  size={10}
-                  style={{ paddingRight: 5 }}
-                  color={getPriorityColor(task.priority_level)} 
-                />
-                <ThemedText type="defaultSemiBold" style={styles.taskText}>
-                  {task.title}
-                </ThemedText>
-                <Checkbox
-                  style={styles.checkbox}
-                  value={maintaskChecks[task.id]}
-                  onValueChange={() => toggleSubtask(task.id)}
-                />
-              </View>
+        {formattedTitle.map((line, index: number) => (
+          <View key={index} style={styles.fl_subContainerBody}>
+            <View key={index} style={styles.taskContainer}>
+              <MaterialIcons
+                name="circle"
+                size={10}
+                style={{ paddingRight: 5 }}
+                color={getPriorityColor(task.priority_level)}
+              />
+              <ThemedText type="defaultSemiBold" style={styles.taskText}>
+                {line}
+              </ThemedText>
+              <Checkbox
+                style={styles.checkbox}
+                value={isChecked}
+                onValueChange={() => toggleTaskCompletion(index)}
+              />
+            </View>
           </View>
-        ) : (
-          // Placeholder when no tasks are available
-          <View style={styles.noTasksContainer}>
-             <TouchableOpacity  >
-                    <Link href={'/(tabs)/(tasks)'} onPress={()=> Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}>
-                      <AntDesign name="pluscircleo" size={30} color="#636363" />
-                    </Link>
-              </TouchableOpacity>
-          </View>
-        )}
+        ))}
+
       </View>
     </SafeAreaView>
   );
@@ -114,44 +144,44 @@ const PriorityItem = ({ task, date}: { task: any, date: Date}) => {
 // Component for the list of priorities
 export const PriorityList = ({ tasks }: { tasks: any[] }) => {
 
- // Ordenação de tasks
-const sortedTasks = useMemo(()=> tasks.sort((a, b) => {
-  // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
-  const priorityA = parseInt(a.priority_level) || Infinity;
-  const priorityB = parseInt(b.priority_level) || Infinity;
+  // Ordenação de tasks
+  const sortedTasks = useMemo(() => tasks.sort((a, b) => {
+    // Converte 'priority_lvl' para número, tratando valores vazios ou inválidos como prioridade máxima (Infinity)
+    const priorityA = parseInt(a.priority_level) || Infinity;
+    const priorityB = parseInt(b.priority_level) || Infinity;
 
-  // Primeiro, ordena por prioridade (ordem crescente)
-  const priorityComparison = priorityA - priorityB;
+    // Primeiro, ordena por prioridade (ordem crescente)
+    const priorityComparison = priorityA - priorityB;
 
-  // Se as prioridades forem iguais, ordena por ID (ordem crescente)
-  if (priorityComparison === 0) {
-    return a.id - b.id;
-  }
+    // Se as prioridades forem iguais, ordena por ID (ordem crescente)
+    if (priorityComparison === 0) {
+      return a.id - b.id;
+    }
 
-  return priorityComparison;
+    return priorityComparison;
 
 
-}),[tasks]);
+  }), [tasks]);
 
-// console.log(sortedTasks);
+  // console.log(sortedTasks);
 
 
   return (
     <View style={styles.listContainer}>
       <FlatList
-      data={sortedTasks}
-      renderItem={({ item }) => (
-        <PriorityItem key={item.id} task={item} date={new Date()} />
-      )}
+        data={sortedTasks}
+        renderItem={({ item }) => (
+          <PriorityItem key={item.id} task={item} date={new Date()} />
+        )}
       />
-     </View>
+    </View>
   );
 };
 
 // Styles
 const styles = StyleSheet.create({
   mainContainer: {
-    padding:0,
+    padding: 0,
     alignItems: 'center',
     flexDirection: 'column',
   },
@@ -162,7 +192,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   fl_subContainerBody: {
-    marginVertical:8,
+    marginVertical: 8,
 
   },
   taskContainer: {
@@ -170,23 +200,23 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Align items vertically
     justifyContent: 'space-between',
     width: width * 0.4,
-    padding:1,
+    padding: 1,
   },
   taskText: {
     flex: 1, // Allow text to take available space
     fontSize: 16,
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   checkbox: {
     marginLeft: 5, // Add spacing between text and checkbox
     borderRadius: 5,
-    padding:10,
+    padding: 10,
   },
   noTasksContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: width*0.16,
+    padding: width * 0.16,
   },
   noTasksText: {
     marginTop: 10,
