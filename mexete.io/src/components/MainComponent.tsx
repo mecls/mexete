@@ -10,6 +10,8 @@ import { MainWorkoutComponent } from './MainWorkoutComponent';
 import workouts from '../assets/data/workouts';
 import StreakComponent from './StreakComponent';
 import { supabase } from '../../lib/supabase';
+import { Redirect } from 'expo-router';
+import { useAuth } from '../providers/AuthProvider';
 
 const { width } = Dimensions.get('window');
 
@@ -17,6 +19,12 @@ const { width } = Dimensions.get('window');
 
 
 export default function MainComponent() {
+
+  const {session} = useAuth()
+  if(!session){
+    return <Redirect href="/auth" />
+  }
+
   const strkDays= "89";
   const [taskData, setTaskData] = useState<any[]>([]);
   useEffect(() => {
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
       flex:1,
       padding:10,
       margin:10,
-      marginTop:20,
+      marginTop:10,
       alignItems:'center',
       flexDirection:'column',
     },
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     },
     subcontainer2:{
       flex:3,
-      alignSelf:'flex-end',
+      alignSelf:'flex-start',
     },
     subcontainer3:{
       flex:1,
