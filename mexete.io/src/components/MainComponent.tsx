@@ -13,7 +13,7 @@ import { supabase } from '../../lib/supabase';
 import { Redirect } from 'expo-router';
 import { useAuth } from '../providers/AuthProvider';
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('screen');
 
 
 
@@ -25,7 +25,6 @@ export default function MainComponent() {
     return <Redirect href="/auth" />
   }
 
-  const strkDays= "89";
   const [taskData, setTaskData] = useState<any[]>([]);
   useEffect(() => {
     const fetchTasks = async () => {

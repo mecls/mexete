@@ -50,9 +50,9 @@ export default function CreateTask() {
           />
         </View>
         <View style={styles.priorityContainer}>
-        <ThemedText style={{marginBottom: 5, fontSize: 18, fontWeight: 'bold'}}>
-          Priority level
-        </ThemedText>
+          <ThemedText style={{ marginBottom: 5, fontSize: 18, fontWeight: 'bold' }}>
+            Priority level
+          </ThemedText>
           <Dropdown
             style={[styles.dropdown, { borderColor: getPriorityColor(Number(value)) }]}
             data={priorityData}
@@ -72,25 +72,35 @@ export default function CreateTask() {
           />
         </View>
         <View style={styles.timeContainer}>
-          <ThemedText style={{fontSize: 18, fontWeight: 'bold'}}>
+          <ThemedText style={{ fontSize: 18, fontWeight: 'bold' }}>
             How long should it take?
           </ThemedText>
+          <View style={{ flexDirection: 'row' }}>
           <ScrollableSelector />
+          </View>
         </View>
         <View style={styles.dateContainer}>
-          <ThemedText style={{fontSize: 18, fontWeight: 'bold'}}>
+          <ThemedText type='title' style={{ fontSize: 18, fontWeight: 'bold' }}>
             When should it be done?
           </ThemedText>
         </View>
+        <View style={styles.dateContainer}>
+          <ThemedText type='title' style={{ fontSize: 18, fontWeight: 'bold' }}>
+           How often does it hapen?
+          </ThemedText>
+          <View >
+
+          </View>
+        </View>
+
       </View>
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
-    padding: 10,
     margin: 10,
     alignItems: 'flex-start',
     flexDirection: 'column',
@@ -118,13 +128,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   priorityContainer: {
+
     marginLeft: 10,
     marginTop: 10,
   },
   dropdown: {
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 8,
     paddingHorizontal: 8,
     width: '40%',
@@ -132,21 +143,26 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: 16,
     color: 'white',
+    fontWeight: 'bold',
   },
   selectedTextStyle: {
     fontSize: 16,
     color: 'white',
+    fontWeight: 'bold',
   },
   iconStyle: {
     width: 20,
     height: 20,
   },
   timeContainer: {
+    flexDirection: 'column',
     marginLeft: 10,
     marginTop: 10,
   },
   dateContainer: {
+    flexDirection: 'column',
     marginLeft: 10,
     marginTop: 10,
+    color: 'white',
   },
 });
